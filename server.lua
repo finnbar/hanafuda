@@ -25,27 +25,30 @@ function sendStartingGameState(firstPlayer, room, msg_or_ip, port_or_nil)
   -- !handaschars!playareaaschars!numberofcardsopponenthas!
   -- All cards are one digit long, so the client just gets a string of them.
   local game = games[room]
+  local nhand = 0
   local nopponent = 0
   local handchars = ''
   local playchars = ''
   if firstPlayer then
     nhand = #game.hand1
     nopponent = #game.hand2
-    for i=1,nhand do
-      handchars = handchars .. game.hand1[i].charVal
-    end
+    handchars = handAsChars(game.hand1,nhand)
   else
     nhand = #game.hand2
     nopponent = #game.hand1
-    for i=1,nhand do
-      handchars = handchars .. game.hand2[i].charVal
-    end
+    handchars = handAsChars(game.hand2,nhand)
   end
   nplay = #game.playArea
-  for i=1,nplay do
-    playchars = playchars .. game.playArea[i].charVal
-  end
+  playchars = handAsChars(game.playArea, nplay)
   sendUDP("!"..handchars.."!"..playchars.."!"..nopponent.."!", msg_or_ip, port_or_nil)
+end
+
+function handAsChars(cards, number)
+  local chars = ''
+  for i=1,number do
+    chars = chars .. cards[i].charVal
+  end
+  return chars
 end
 
 function createNewGame(data, msg_or_ip, port_or_nil)
