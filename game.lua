@@ -95,7 +95,11 @@ function game.mousepressed(x, y, button, istouch)
     -- First check if the card is in hand.
     for i,j in pairs(hand) do
       if pointerInCard(j, x, y) then
-        selectedCard = i
+        if selectedCard == i then
+          selectedCard = 0
+        else
+          selectedCard = i
+        end
         return game
       end
     end
