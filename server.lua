@@ -95,11 +95,68 @@ function createNewGame(data, msg_or_ip, port_or_nil)
         table.insert(h2, table.remove(d,1))
         table.insert(p, table.remove(d,1))
       end
-      games[newroomname] = {deck = d, hand1 = h1, hand2 = h2, playArea = p, score1 = {}, score2 = {},  players = {newusername}}
+      games[newroomname] = {deck = d, hand1 = h1, hand2 = h2, playArea = p, score1 = {}, score2 = {},  players = {newusername}, mode="h1"}
       users[newusername] = newroomname
       sendStartingGameState(true, newroomname, msg_or_ip, port_or_nil)
     end
   end
+end
+
+function updateGame(data, msg_or_ip, port_or_nil)
+  local roomname, username, match = string.match(data,"^>(%w+)>(%w+)>(%w+)")
+  assert(roomname and username and match)
+  local game = games[username]
+  local msg_sent = false
+  if game then
+    local playerHand, playerScore, playerNum
+    if string.sub(game.mode, 2, 2) == 1 then
+      -- player 1's go
+      playerNum = 1
+      playerHand = game.hand1
+      playerScore = game.score1
+    elseif string.sub(game.mode, 2, 2) == 2 then
+      -- player 2's go
+      playerNum = 2
+      playerHand = game.hand2
+      playerScore = game.score2
+    end
+    if playerNum and username == game.players[playerNum] then
+      if string.sub(game.mode, 1, 1) == "h" then
+        if verifyAndUpdateHandMove(match, game, playerHand, playerScore) then
+          sendHandGameUpdate(playerNum == 1, match, msg_or_ip, port_or_nil)
+          msg_sent = true
+        end
+      elseif string.sub(game.mode, 1, 1) == "d" then
+        if verifyAndUpdateDeckMove(match, game, playerHand, playerScore) then
+          sendDeckGameUpdate(playerNum == 1, match, msg_or_ip, port_or_nil)
+          msg_sent = true
+        end
+      end
+    end
+  end
+  if not msg_sent then
+    sendFailureMessage(msg_or_ip, port_or_nil)
+  end
+end
+
+function verifyAndUpdateHandMove(match, game, playerHand, playerScore)
+  return false
+end
+
+function verifyAndUpdateDeckMove(match, game, playerHand, playerScore)
+  return false
+end
+
+function sendHandGameUpdate(firstPlayer, match, msg_or_ip, port_or_nil)
+
+end
+
+function sendDeckGameUpdate(firstPlayer, match, msg_or_ip, port_or_nil)
+
+end
+
+function sendFailureMessage(msg_or_ip, port_or_nil)
+
 end
 
 function main()
@@ -112,9 +169,12 @@ function main()
       -- # => roomname
       -- @ => username
       -- ! => starting game state
-      -- > => move
+      -- > => move or update
+      -- ~ => failure message
       if string.sub(data,1,1) == "#" then
         createNewGame(data, msg_or_ip, port_or_nil)
+      elseif string.sub(data,1,1) == ">" then
+        updateGame(data, msg_or_ip, port_or_nil)
       end
     elseif msg_or_ip ~= 'timeout' then
       error("Unknown network error: "..tostring(msg_or_ip))
