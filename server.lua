@@ -103,7 +103,7 @@ function createNewGame(data, msg_or_ip, port_or_nil)
 end
 
 function updateGame(data, msg_or_ip, port_or_nil)
-  local roomname, username, match = string.match(data,"^>(%w+)>(%w+)>(%w+)")
+  local roomname, username, match = string.match(data,"^>(%w+)>(%w+)>(%w*)")
   assert(roomname and username and match)
   local game = games[username]
   local msg_sent = false
@@ -122,13 +122,15 @@ function updateGame(data, msg_or_ip, port_or_nil)
     end
     if playerNum and username == game.players[playerNum] then
       if string.sub(game.mode, 1, 1) == "h" then
-        if verifyAndUpdateHandMove(match, game, playerHand, playerScore) then
-          sendHandGameUpdate(playerNum == 1, match, msg_or_ip, port_or_nil)
+        if verifyHandMove(match, game, playerHand) then
+          updateHandMove(match, game, playerHand, playerScore)
+          sendGameUpdate(playerNum == 1, match, msg_or_ip, port_or_nil)
           msg_sent = true
         end
       elseif string.sub(game.mode, 1, 1) == "d" then
-        if verifyAndUpdateDeckMove(match, game, playerHand, playerScore) then
-          sendDeckGameUpdate(playerNum == 1, match, msg_or_ip, port_or_nil)
+        if verifyDeckMove(match, game, playerHand) then
+          updateHandMove(match, game, playerHand, playerScore)
+          sendGameUpdate(playerNum == 1, match, msg_or_ip, port_or_nil)
           msg_sent = true
         end
       end
@@ -139,19 +141,48 @@ function updateGame(data, msg_or_ip, port_or_nil)
   end
 end
 
-function verifyAndUpdateHandMove(match, game, playerHand, playerScore)
-  return false
+function verifyHandMove(match, game, playerHand)
+  if #match == 1 then
+    -- Placing a card, is it in hand?
+    return searchForCard(playerHand, match)
+  elseif #match == 2 then
+    -- Matching a card
+    local c1, card1, c2, card2
+
+    -- Get cards from hand and play area
+    c1 = string.sub(match, 1, 1)
+    card1 = searchForCard(playerHand, c1)
+    c2 = string.sub(match, 2, 2)
+    card2 = searchForCard(game.playArea, c2)
+
+    -- Check cards exist and match
+    return card1 and card2 and card1.month == card2.month
+  else
+    return false
+  end
 end
 
-function verifyAndUpdateDeckMove(match, game, playerHand, playerScore)
-  return false
+function verifyDeckMove(match, game, playerHand)
+  if #match == 0 then
+    return true -- you can always drop a card
+  elseif #match == 1 then
+    -- Matching this card with the deck flip
+    local card = searchForCard(playerHand, match)
+    return card and card.month == game.deckFlip.month
+  else
+    return false
+  end
 end
 
-function sendHandGameUpdate(firstPlayer, match, msg_or_ip, port_or_nil)
+function updateHandMove(match, game, playerHand, playerScore)
 
 end
 
-function sendDeckGameUpdate(firstPlayer, match, msg_or_ip, port_or_nil)
+function updateDeckMove(match, game, playerHand, playerScore)
+
+end
+
+function sendGameUpdate(firstPlayer, match, msg_or_ip, port_or_nil)
 
 end
 

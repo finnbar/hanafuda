@@ -30,3 +30,11 @@ function randSort(t) -- THANKS THE INTERNET! ("no problem" - The Internet)
 	end
 	return t
 end
+
+function searchForCard(cards, charVal) {
+  for index,card in pairs(cards) do
+    if card.charVal == charVal then
+      return card
+    end
+  end
+}
