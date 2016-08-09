@@ -1,6 +1,6 @@
 package.path = package.path .. ";../both/?.lua"
 
-requires = {"cards-define","cards-score","useful","game","menu","tween"}
+requires = {"cards-define","cards-score","useful","game","menu","tween", "game-setup"}
 for i,j in pairs(requires) do
   require(j)
 end
@@ -17,6 +17,13 @@ local gamestate = menu
 errormsg = ""
 mode = 1
 cards = {}
+
+-- Game variables
+hand = {}
+selectedCard = 0
+playArea = {}
+playAreaLocations = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}}
+opposingCards = 8
 
 function love.load()
   cards = importCards(true)

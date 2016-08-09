@@ -192,7 +192,7 @@ function sendGameUpdate(playerNum, match, game)
   end
 
   local otherPlayer = 3 - playerNum
-  print(playerNum, otherPlayer)
+  
   -- send message to player who sent move, approving it:
   sendUDP(data, game.players[playerNum].msg_or_ip, game.players[playerNum].port_or_nil)
 

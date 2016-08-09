@@ -20,18 +20,19 @@ When you are in the client directory, type into the command line: love . and it 
 This is mostly for my own benefit, but I'll briefly list the files used.
 
 #### Client
-* **conf.lua**: Used by the client. Sets up important stuff like window size. It is called by LOVE at the beginning.
-* **game.lua**: Used by the client. Controls most of what they actually see.
-* **main.lua**: The main client file. The callbacks set here are called by LOVE when things happen. Mostly calls functions from game.lua, which does most of the work.
+* **conf.lua**: Sets up important stuff like window size. It is called by LOVE at the beginning.
+* **game-setup.lua**: Contains functions for receiving game data from server and initiating the game on the client.
+* **game.lua**: Contains useful functions for all gamestates.
+* **main.lua**: The main client file. The callbacks set here are called by LOVE when things happen. Mostly calls functions of whatever gamestate is currently happening.
 * **main-old.lua**: The old main client file, not used anymore. Included mostly for entertainment, I guess?
-* **menu.lua**: Used by the client. It controls logging in at the beginning of the game.
-* **tween.lua**: Used by the client. Used for moving cards around smoothly.
+* **menu.lua**: Contains a gamestate that controls logging in at the beginning of the game.
+* **tween.lua**: Used for moving cards around smoothly.
 
 #### Server
-* **server.lua**: Used by the server. It controls the server and gets it to send and receive messages.
+* **server.lua**: It controls the server and gets it to send and receive messages.
 
 #### Both
-* **cards-define.lua**: Used by both the client and the server. Defines all cards, their values, months and images.
+* **cards-define.lua**: Defines all cards, their values, months and images.
 * **cards-score.lua**: Currently not used. It takes a set of cards collected and scores them according to the rules of Koi-Koi.
 * **cards-tests.lua**: Some tests for whether the card scoring actually works.
-* **useful.lua**: Used by both the server and the client. It has some useful functions for doing stuff like shuffling a deck, copying a table or checking for equality on tables.
+* **useful.lua**: It has some useful functions for doing stuff like shuffling a deck, copying a table or checking for equality on tables.
