@@ -191,6 +191,7 @@ function sendFailureMessage(msg_or_ip, port_or_nil)
 end
 
 function main()
+  math.randomseed(os.time()) -- Otherwise we get the same cards whenever server restarts
   while running do
     data, msg_or_ip, port_or_nil = udp:receivefrom()
     if data then

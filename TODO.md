@@ -27,7 +27,7 @@ Make client work
   - [ ] Sort out ending game code
 
 Other stuff
- - [ ] Get it to shuffle cards *differently* each time
+ - [x] Get it to shuffle cards *differently* each time
  - [ ] Separate client code and server code into folders
  - [ ] Allow people to be randomly matched with opponents
  - [ ] Allow playing multiple games as part of a longer matched
