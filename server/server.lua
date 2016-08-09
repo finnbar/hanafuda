@@ -1,4 +1,5 @@
 -- server.lua, which runs the server stuff, unsurprisingly.
+package.path = package.path .. ";../both/?.lua" -- get anything from both folder
 
 require "cards-define"
 require "cards-score"

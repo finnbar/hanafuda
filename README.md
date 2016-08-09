@@ -7,13 +7,13 @@ It doesn't work yet, sadly, but hopefully it will soon.
 
 ### The Server
 
-To run the server, you will need lua installed, including a package called socket. Type into the command line: lua server.lua
+To run the server, you will need lua installed, including a package called socket. Move into the server folder. Type into the command line: lua server.lua
 It should then all magically work.
 
 ### The Client
 
-You will also need LOVE installed to run the client.
-When you are in the code directory, type into the command line: love . and it should all magically work. In particular, you should get a window appear and ask you for your username.
+You will need LOVE installed to run the client.
+When you are in the client directory, type into the command line: love . and it should all magically work. In particular, you should get a window appear and ask you for your username.
 
 ## The Code
 

@@ -28,7 +28,8 @@ Make client work
 
 Other stuff
  - [x] Get it to shuffle cards *differently* each time
- - [ ] Separate client code and server code into folders
+ - [x] Separate client code and server code into folders
  - [ ] Allow people to be randomly matched with opponents
- - [ ] Allow playing multiple games as part of a longer matched
+ - [ ] Allow playing multiple games as part of a longer match
  - [ ] Split server into different files because it is getting long
+ - [ ] Fix issue with one player connected and another not connected (waiting stage?)
