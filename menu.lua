@@ -1,6 +1,6 @@
 menu = {}
-local username = ""
-local roomname = ""
+username = ""
+roomname = ""
 
 function menu.update(dt, data, msg)
   return menu

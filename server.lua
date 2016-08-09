@@ -105,16 +105,16 @@ end
 function updateGame(data, msg_or_ip, port_or_nil)
   local roomname, username, match = string.match(data,"^>(%w+)>(%w+)>(%w*)")
   assert(roomname and username and match)
-  local game = games[username]
+  local game = games[roomname]
   local msg_sent = false
   if game then
     local playerHand, playerScore, playerNum
-    if string.sub(game.mode, 2, 2) == 1 then
+    if string.sub(game.mode, 2, 2) == "1" then
       -- player 1's go
       playerNum = 1
       playerHand = game.hand1
       playerScore = game.score1
-    elseif string.sub(game.mode, 2, 2) == 2 then
+    elseif string.sub(game.mode, 2, 2) == "2" then
       -- player 2's go
       playerNum = 2
       playerHand = game.hand2

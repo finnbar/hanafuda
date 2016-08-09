@@ -106,8 +106,9 @@ function game.mousepressed(x, y, button, istouch)
     -- Then check if it's on the table
     for i,j in pairs(playArea) do
       if pointerInCard(j, x, y) then
-        if selectedCard ~= 0 then
+        if selectedCard ~= 0 and hand[selectedCard].month == j.month then
           -- Okay, that's our move, send it off.
+          udp:send(">"..roomname..">"..username..">"..hand[selectedCard].charVal..j.charVal)
           selectedCard = 0
           return game
         end
