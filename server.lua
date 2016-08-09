@@ -68,7 +68,7 @@ function createNewGame(data, msg_or_ip, port_or_nil)
     for i, j in pairs(games) do
       if i == newroomname then
         if #(j.players) == 1 then
-          table.insert(games[i].players, newusername)
+          table.insert(games[i].players, {username = newusername, msg_or_ip = msg_or_ip, port_or_nil = port_or_nil})
           sendStartingGameState(false, newroomname, msg_or_ip, port_or_nil)
           istaken = true
         else
@@ -95,7 +95,7 @@ function createNewGame(data, msg_or_ip, port_or_nil)
         table.insert(h2, table.remove(d,1))
         table.insert(p, table.remove(d,1))
       end
-      games[newroomname] = {deck = d, hand1 = h1, hand2 = h2, playArea = p, score1 = {}, score2 = {},  players = {newusername}, mode="h1"}
+      games[newroomname] = {deck = d, hand1 = h1, hand2 = h2, playArea = p, score1 = {}, score2 = {},  players = {{username = newusername, msg_or_ip = msg_or_ip, port_or_nil = port_or_nil}}, mode="h1"}
       users[newusername] = newroomname
       sendStartingGameState(true, newroomname, msg_or_ip, port_or_nil)
     end
@@ -120,17 +120,17 @@ function updateGame(data, msg_or_ip, port_or_nil)
       playerHand = game.hand2
       playerScore = game.score2
     end
-    if playerNum and username == game.players[playerNum] then
+    if playerNum and username == game.players[playerNum].username then
       if string.sub(game.mode, 1, 1) == "h" then
         if verifyHandMove(match, game, playerHand) then
           updateHandMove(match, game, playerHand, playerScore)
-          sendGameUpdate(playerNum == 1, match, msg_or_ip, port_or_nil)
+          sendGameUpdate(playerNum, match, game)
           msg_sent = true
         end
       elseif string.sub(game.mode, 1, 1) == "d" then
         if verifyDeckMove(match, game, playerHand) then
           updateHandMove(match, game, playerHand, playerScore)
-          sendGameUpdate(playerNum == 1, match, msg_or_ip, port_or_nil)
+          sendGameUpdate(playerNum, match, game)
           msg_sent = true
         end
       end
@@ -182,12 +182,31 @@ function updateDeckMove(match, game, playerHand, playerScore)
 
 end
 
-function sendGameUpdate(firstPlayer, match, msg_or_ip, port_or_nil)
+function sendGameUpdate(playerNum, match, game)
+  local data
+  if #match == 1 then
+    data = string.format(">%s>", match)
+  else
+    data = string.format(">%s%s>", match:sub(1,1), match:sub(2,2))
+  end
+
+  local otherPlayer = 3 - playerNum
+  print(playerNum, otherPlayer)
+  -- send message to player who sent move, approving it:
+  sendUDP(data, game.players[playerNum].msg_or_ip, game.players[playerNum].port_or_nil)
+
+  -- send message to other player
+  if #game.players == 2 then
+    -- Check that both players are connected
+    sendUDP(data, game.players[otherPlayer].msg_or_ip, game.players[otherPlayer].port_or_nil)
+  else
+    -- Store move to send later?
+  end
 
 end
 
 function sendFailureMessage(msg_or_ip, port_or_nil)
-
+  sendUDP("~", msg_or_ip, port_or_nil)
 end
 
 function main()

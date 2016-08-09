@@ -6,7 +6,7 @@ Make server work
  - [ ] Write code for updating game based on message
     - [ ] When in hand mode
     - [ ] When in deck mode
- - [ ] Write code for sending response messages
+ - [x] Write code for sending response messages
  - [ ] Write code for dealing a card
  - [ ] Add scoring into receiving a card
 
