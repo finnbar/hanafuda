@@ -186,6 +186,9 @@ function updateHandMove(match, game, playerNum, playerHand, playerScore)
     moveByField(playerHand, playerScore, "charVal", match:sub(1, 1))
     moveByField(game.playArea, playerScore, "charVal", match:sub(2, 2))
   end
+  -- deal the next card
+  game.deckFlip = table.remove(game.deck, 1)
+
   game.mode = "d"..playerNum
 end
 
@@ -208,18 +211,18 @@ function sendGameUpdate(playerNum, match, game)
     data = string.format(">%s%s>", match:sub(1,1), match:sub(2,2))
   end
 
+  if game.mode:sub(1,1) == "d" then
+    -- We need to deal a card
+    data = data..game.deckFlip.charVal..">"
+  end
+
   local otherPlayer = 3 - playerNum
 
   -- send message to player who sent move, approving it:
   sendUDP(data, game.players[playerNum].msg_or_ip, game.players[playerNum].port_or_nil)
 
   -- send message to other player
-  if #game.players == 2 then
-    -- Check that both players are connected
-    sendUDP(data, game.players[otherPlayer].msg_or_ip, game.players[otherPlayer].port_or_nil)
-  else
-    -- Store move to send later?
-  end
+  sendUDP(data, game.players[otherPlayer].msg_or_ip, game.players[otherPlayer].port_or_nil)
 
 end
 

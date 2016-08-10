@@ -7,7 +7,7 @@ Make server work
     - [x] When in hand mode
     - [x] When in deck mode
  - [x] Write code for sending response messages
- - [ ] Write code for dealing a card
+ - [x] Write code for dealing a card
  - [ ] Add scoring into receiving a card
 
 Make client work
@@ -32,5 +32,5 @@ Other stuff
  - [ ] Allow people to be randomly matched with opponents
  - [ ] Allow playing multiple games as part of a longer match
  - [ ] Split server into different files because it is getting long
- - [ ] Fix issue with one player connected and another not connected (waiting stage?)
+ - [x] Fix issue with one player connected and another not connected (waiting stage?)
  - [ ] Change tween implementation to use dictionary-tables instead of list-tables
