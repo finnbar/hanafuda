@@ -53,8 +53,23 @@ function menu.keypressed(key)
       mode = 2
     elseif mode == 2 then
       udp:send("#"..roomname.."@"..username)
-      return game
     end
+  end
+  return menu
+end
+
+function menu.acceptMessage(data, msg)
+  if data:sub(1,1) == "!" then
+    setUpGame(data)
+    return gameHandWait
+  elseif data:sub(1,1) == "&" then
+    return waiting
+  elseif string.sub(data,1,1) == "@" then
+    mode = 1
+    errormsg = "Choose a different username."
+  elseif string.sub(data,1,1) == "#" then
+    mode = 2
+    errormsg = "Room in use."
   end
   return menu
 end

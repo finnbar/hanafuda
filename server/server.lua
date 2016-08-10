@@ -70,6 +70,9 @@ function createNewGame(data, msg_or_ip, port_or_nil)
       if i == newroomname then
         if #(j.players) == 1 then
           table.insert(games[i].players, {username = newusername, msg_or_ip = msg_or_ip, port_or_nil = port_or_nil})
+          -- Tell player 1 to leave waiting area
+          sendStartingGameState(true, newroomname, games[i].players[1].msg_or_ip, games[i].players[1].port_or_nil)
+          -- Tell player 2 they were successful
           sendStartingGameState(false, newroomname, msg_or_ip, port_or_nil)
           istaken = true
         else
@@ -80,6 +83,7 @@ function createNewGame(data, msg_or_ip, port_or_nil)
       end
     end
     if not istaken then
+      -- Set up a game, then send to waiting area
       local h1 = {}
       local h2 = {}
       local p = {}
@@ -98,7 +102,7 @@ function createNewGame(data, msg_or_ip, port_or_nil)
       end
       games[newroomname] = {deck = d, hand1 = h1, hand2 = h2, playArea = p, score1 = {}, score2 = {},  players = {{username = newusername, msg_or_ip = msg_or_ip, port_or_nil = port_or_nil}}, mode="h1"}
       users[newusername] = newroomname
-      sendStartingGameState(true, newroomname, msg_or_ip, port_or_nil)
+      sendUDP("&", msg_or_ip, port_or_nil)
     end
   end
 end
@@ -236,6 +240,7 @@ function main()
       -- ! => starting game state
       -- > => move or update
       -- ~ => failure message
+      -- & => sends to waiting area
       if string.sub(data,1,1) == "#" then
         createNewGame(data, msg_or_ip, port_or_nil)
       elseif string.sub(data,1,1) == ">" then
