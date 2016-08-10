@@ -16,8 +16,10 @@ function setUpGame(data)
     local x,y = math.ceil(pnums[i]/4),(pnums[i]%4)
     if y==0 then y=4 end
     table.insert(playArea, cards[x][y])
-    playArea[i].row, playArea[i].col, playArea[i].x, playArea[i].y = getPlayAreaCoords()
+    playArea[i].row, playArea[i].col, playArea[i].x, playArea[i].y = getPlayAreaCoords(true)
   end
+  local r,c
+  r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
 end
 
 function getCardFromChar(c)

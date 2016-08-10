@@ -1,4 +1,7 @@
 local cardBacks = love.graphics.newImage("assets/images/back.png")
+local emptyImg = love.graphics.newImage("assets/images/empty.png")
+
+emptyCard = {image = emptyImg, x = 0, y = 0, size = 1}
 
 function drawCards(yourGo)
   for i, j in pairs(hand) do
@@ -51,6 +54,10 @@ function drawCards(yourGo)
   if deckFlip then
     love.graphics.setColor(255,255,255,255)
     pasteCard(deckFlip)
+  end
+
+  if yourGo then
+    pasteCard(emptyCard)
   end
 end
 

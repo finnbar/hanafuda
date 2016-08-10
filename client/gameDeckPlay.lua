@@ -21,9 +21,11 @@ function gameDeckPlay.mousepressed(x, y, button, istouch)
         if selectedCard and selectedCard.month == j.month then
           -- Okay, that's our move, send it off.
           udp:send(">"..roomname..">"..username..">"..j.charVal)
-          selectedCard = nil
         end
       end
+    end
+    if pointerInCard(emptyCard, x, y) then
+      udp:send(">"..roomname..">"..username..">")
     end
   end
   return gameDeckPlay

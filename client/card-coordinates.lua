@@ -1,10 +1,12 @@
-function getPlayAreaCoords()
+function getPlayAreaCoords(addToLocations)
   local x,y = 0,0
   for i=1,#playAreaLocations do
     for j=1,2 do
       if playAreaLocations[i][j] == 0 then
         x,y = i,j
-        playAreaLocations[i][j] = 1
+        if addToLocations then
+          playAreaLocations[i][j] = 1
+        end
         break
       end
     end

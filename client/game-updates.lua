@@ -23,6 +23,9 @@ function updateYourHandMove(data)
   deckFlip.x, deckFlip.y = 70, 265
 
   selectedCard = deckFlip
+
+  local r,c
+  r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
 end
 
 function updateTheirHandMove(data)
@@ -58,6 +61,9 @@ function updateTheirHandMove(data)
 
   opposingCards = opposingCards - 1 -- They must have used a card
 
+  local r,c
+  r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
+
 end
 
 function updateYourDeckMove(data)
@@ -77,6 +83,8 @@ function updateYourDeckMove(data)
     moveBothToScorePile(deckFlip, playAreaToMove, newx1, newy1, newx2, newy2, 0.25, 0.25)
   end
   deckFlip = nil
+  local r,c
+  r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
 
 end
 
@@ -98,6 +106,9 @@ function updateTheirDeckMove(data)
   end
   deckFlip = nil
 
+  local r,c
+  r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
+
 end
 
 function moveBothToScorePile(card1, card2, newx1, newy1, newx2, newy2, time1, time2)
@@ -112,7 +123,7 @@ end
 
 function moveToPlayArea(card, time)
   local newx, newy
-  card.row, card.col, newx, newy = getPlayAreaCoords()
+  card.row, card.col, newx, newy = getPlayAreaCoords(true)
   card.tweens.x = createTweens({{card.x, newx, time}})
   card.tweens.y = createTweens({{card.y, newy, time}})
 end

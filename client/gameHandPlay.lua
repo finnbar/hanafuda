@@ -43,6 +43,13 @@ function gameHandPlay.mousepressed(x, y, button, istouch)
         end
       end
     end
+    -- check if it is in the empty card
+    if pointerInCard(emptyCard, x, y) then
+      if selectedCard then
+        udp:send(">"..roomname..">"..username..">"..selectedCard.charVal)
+        selectedCard = nil
+      end
+    end
   end
   selectedCard = nil
   return gameHandPlay
