@@ -20,10 +20,11 @@ When you are in the client directory, type into the command line: love . and it 
 This is mostly for my own benefit, but I'll briefly list the files used.
 
 #### Client
+* **card-coordinates.lua**: Contains code for deciding coordinates of cards (e.g. for playArea)
 * **card-draw.lua**: Contains code for drawing cards used in all gamestates.
 * **conf.lua**: Sets up important stuff like window size. It is called by LOVE at the beginning.
 * **game-setup.lua**: Contains functions for receiving game data from server and initiating the game on the client.
-* **game.lua**: Contains useful functions for all gamestates.
+* **game-updates**: Contains code for receiving game updates from server in any of the four game modes.
 * **gameDeckPlay.lua**: Contains the gamestate for the flip part of the game, when it is your go.
 * **gameDeckWait.lua**: Contains the gamestate for the flip part of the game, when it is not your go.
 * **gameHandPlay.lua**: Contains the gamestate for the hand part of the game, when it is your go.
