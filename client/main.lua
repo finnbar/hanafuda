@@ -79,10 +79,10 @@ function love.textinput(t)
   end
 end
 
-function updateCard(cardObject)
+function updateCard(cardObject, dt)
   -- Apply tween, not sure about this yet.
   for i,j in pairs(cardObject.tweens) do
-    cardObject.tweens[i] = updateTweens(j)
+    cardObject.tweens[i] = updateTweens(j, dt)
     local newval = valueTween(cardObject.tweens[i])
     if newval ~= nil then
       cardObject[i] = newval
@@ -91,7 +91,30 @@ function updateCard(cardObject)
   return cardObject
 end
 
+function updateAllCards(dt)
+  for i,j in pairs(yourScore) do
+    updateCard(j, dt)
+  end
+
+  for i,j in pairs(theirScore) do
+    updateCard(j, dt)
+  end
+
+  for i,j in pairs(playArea) do
+    updateCard(j, dt)
+  end
+
+  for i,j in pairs(hand) do
+    updateCard(j, dt)
+  end
+  
+  if deckFlip then
+    updateCard(deckFlip, dt)
+  end
+end
+
 function pointerInCard(cardObject, px, py)
+  local endx, endy
   endx = (cardObject.image:getWidth()*cardObject.size) + cardObject.x
   endy = (cardObject.image:getHeight()*cardObject.size) + cardObject.y
   if px <= endx and px >= cardObject.x and py <= endy and py >= cardObject.y then return true else return false end

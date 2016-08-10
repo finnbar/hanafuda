@@ -20,18 +20,17 @@ function updateTweens(t,dt) -- tween, deltatime
       table.remove(t,1)
       if t[1] ~= nil then
         t[1][4] = t[1][4] + dt
-      else
-        return false
       end
     end
-    return t -- returns true if there is still motion, else false
+    return t -- returns tweens if there is still motion, else false
   else
     return {}
   end
 end
 
 function valueTween(t)
-  if t[1] ~= nil then
-    return t[1] + ((t[2] - t[1])*(t[4] / t[3]))
+  if #t ~= 0 then
+    local currentTween = t[1]
+    return currentTween[1] + ((currentTween[2] - currentTween[1])*(currentTween[4] / currentTween[3]))
   else return nil end
 end

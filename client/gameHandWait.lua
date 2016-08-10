@@ -12,3 +12,8 @@ function gameHandWait.acceptMessage(data, msg)
   end
   return gameHandWait
 end
+
+function gameHandWait.update(dt)
+  updateAllCards(dt)
+  return gameHandWait
+end

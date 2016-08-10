@@ -28,3 +28,8 @@ function gameDeckPlay.mousepressed(x, y, button, istouch)
   end
   return gameDeckPlay
 end
+
+function gameDeckPlay.update(dt)
+  updateAllCards(dt)
+  return gameDeckPlay
+end

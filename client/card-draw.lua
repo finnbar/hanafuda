@@ -37,6 +37,16 @@ function drawCards(yourGo)
     love.graphics.draw(cardBacks, 70 + (2*i), 265 + (2*i))
   end
 
+  -- Draw all cards in both score piles
+  love.graphics.setColor(255,255, 255, 255)
+  for i,j in pairs(yourScore) do
+    pasteCard(j)
+  end
+
+  for i,j in pairs(theirScore) do
+    pasteCard(j)
+  end
+
   -- Draw the flip, if there is one
   if deckFlip then
     love.graphics.setColor(255,255,255,255)

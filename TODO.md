@@ -21,7 +21,7 @@ Make client work
     - [ ] Game finished! (gf)
     - [ ] Menu (m)
   - [x] Write code for updating game when moves received from the server
-  - [ ] Move the cards after they have arrived
+  - [x] Move the cards after they have arrived
   - [ ] Implement some method for dropping a card and sending that move
   - [x] Write code for receiving dealt card
   - [ ] Write code for displaying scored cards
@@ -40,3 +40,4 @@ Other stuff
   - [x] Sometimes moves don't seem to be verified, and I'm not yet sure why.
         Examples: `]
   - [x] Deck selection doesn't work.
+  - [ ] Doesn't seem to like second moves (client) and third moves (server)

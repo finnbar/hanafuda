@@ -12,3 +12,8 @@ function gameDeckWait.acceptMessage(data, msg)
   end
   return gameDeckWait
 end
+
+function gameDeckWait.update(dt)
+  updateAllCards(dt)
+  return gameDeckWait
+end

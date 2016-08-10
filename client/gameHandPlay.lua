@@ -6,6 +6,7 @@ function gameHandPlay.draw()
 end
 
 function gameHandPlay.update(dt)
+  updateAllCards(dt)
   for i, j in pairs(hand) do
     hand[i] = updateCard(j)
     local willBeMatched = false
@@ -24,7 +25,7 @@ function gameHandPlay.mousepressed(x, y, button, istouch)
     -- First check if the card is in hand.
     for i,j in pairs(hand) do
       if pointerInCard(j, x, y) then
-        if selectedCard and selectedCard.charVal == i.charVal then
+        if selectedCard and selectedCard.charVal == j.charVal then
           selectedCard = nil
         else
           selectedCard = j
