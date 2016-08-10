@@ -2,7 +2,7 @@ local cardBacks = love.graphics.newImage("assets/images/back.png")
 
 function drawCards(yourGo)
   for i, j in pairs(hand) do
-    if yourGo and selectedCard ~= 0 and selectedCard ~= i then
+    if yourGo and selectedCard and selectedCard.charVal ~= j.charVal then
       love.graphics.setColor(255,255,255,125)
     end
     pasteCard(j)
@@ -13,8 +13,8 @@ function drawCards(yourGo)
     love.graphics.setColor(255,255,255,255)
   end
   for i, j in pairs(playArea) do
-    if yourGo and selectedCard ~= 0 then
-      if hand[selectedCard].month == j.month then
+    if yourGo and selectedCard then
+      if selectedCard.month == j.month then
         love.graphics.setColor(255,255,255,255)
       else
         love.graphics.setColor(255,255,255,125)

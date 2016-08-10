@@ -24,10 +24,10 @@ function gameHandPlay.mousepressed(x, y, button, istouch)
     -- First check if the card is in hand.
     for i,j in pairs(hand) do
       if pointerInCard(j, x, y) then
-        if selectedCard == i then
-          selectedCard = 0
+        if selectedCard and selectedCard.charVal == i.charVal then
+          selectedCard = nil
         else
-          selectedCard = i
+          selectedCard = j
         end
         return gameHandPlay
       end
@@ -35,15 +35,15 @@ function gameHandPlay.mousepressed(x, y, button, istouch)
     -- Then check if it's on the table
     for i,j in pairs(playArea) do
       if pointerInCard(j, x, y) then
-        if selectedCard ~= 0 and hand[selectedCard].month == j.month then
+        if selectedCard and selectedCard.month == j.month then
           -- Okay, that's our move, send it off.
-          udp:send(">"..roomname..">"..username..">"..hand[selectedCard].charVal..j.charVal)
-          selectedCard = 0
+          udp:send(">"..roomname..">"..username..">"..selectedCard.charVal..j.charVal)
+          selectedCard = nil
         end
       end
     end
   end
-  selectedCard = 0
+  selectedCard = nil
   return gameHandPlay
 end
 

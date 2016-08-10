@@ -20,7 +20,7 @@ cards = {}
 
 -- Game variables
 hand = {}
-selectedCard = 0
+selectedCard = nil
 playArea = {}
 playAreaLocations = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}}
 opposingCards = 8
