@@ -12,6 +12,8 @@ function updateYourHandMove(data)
   deckFlip = cards[xc][yc]
   deckFlip.x, deckFlip.y = 70, 265
 
+  selectedCard = deckFlip
+
   -- Move the cards (TODO)
 end
 
