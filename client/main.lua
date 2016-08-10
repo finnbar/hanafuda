@@ -34,6 +34,7 @@ function love.load()
 end
 
 function love.update(dt)
+  local data, msg
   repeat
     data, msg = udp:receive()
     if data then
@@ -73,10 +74,6 @@ function love.textinput(t)
   if gamestate.textinput then
     gamestate = gamestate.textinput(t)
   end
-end
-
-function pasteCard(cardObject)
-  love.graphics.draw(cardObject.image, cardObject.x, cardObject.y, 0, cardObject.size, cardObject.size)
 end
 
 function updateCard(cardObject)
