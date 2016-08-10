@@ -3,9 +3,9 @@ Here is a list of tasks that will make the game actually work or make it better.
 Coding stuff to do (in rough order of importance in each list)
 
 Make server work
- - [ ] Write code for updating game based on message
-    - [ ] When in hand mode
-    - [ ] When in deck mode
+ - [x] Write code for updating game based on message
+    - [x] When in hand mode
+    - [x] When in deck mode
  - [x] Write code for sending response messages
  - [ ] Write code for dealing a card
  - [ ] Add scoring into receiving a card

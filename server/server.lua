@@ -124,13 +124,13 @@ function updateGame(data, msg_or_ip, port_or_nil)
     if playerNum and username == game.players[playerNum].username then
       if string.sub(game.mode, 1, 1) == "h" then
         if verifyHandMove(match, game, playerHand) then
-          updateHandMove(match, game, playerHand, playerScore)
+          updateHandMove(match, game, playerNum, playerHand, playerScore)
           sendGameUpdate(playerNum, match, game)
           msg_sent = true
         end
       elseif string.sub(game.mode, 1, 1) == "d" then
         if verifyDeckMove(match, game, playerHand) then
-          updateHandMove(match, game, playerHand, playerScore)
+          updateHandMove(match, game, playerNum, playerHand, playerScore)
           sendGameUpdate(playerNum, match, game)
           msg_sent = true
         end
@@ -145,16 +145,16 @@ end
 function verifyHandMove(match, game, playerHand)
   if #match == 1 then
     -- Placing a card, is it in hand?
-    return searchForCard(playerHand, match)
+    return searchByField(playerHand, "charVal", match)
   elseif #match == 2 then
     -- Matching a card
     local c1, card1, c2, card2
 
     -- Get cards from hand and play area
     c1 = string.sub(match, 1, 1)
-    card1 = searchForCard(playerHand, c1)
+    card1 = searchByField(playerHand, "charVal", c1)
     c2 = string.sub(match, 2, 2)
-    card2 = searchForCard(game.playArea, c2)
+    card2 = searchByField(game.playArea, "charVal", c2)
 
     -- Check cards exist and match
     return card1 and card2 and card1.month == card2.month
@@ -168,19 +168,32 @@ function verifyDeckMove(match, game, playerHand)
     return true -- you can always drop a card
   elseif #match == 1 then
     -- Matching this card with the deck flip
-    local card = searchForCard(playerHand, match)
+    local card = searchByField(playerHand, "charVal", match)
     return card and card.month == game.deckFlip.month
   else
     return false
   end
 end
 
-function updateHandMove(match, game, playerHand, playerScore)
-
+function updateHandMove(match, game, playerNum, playerHand, playerScore)
+  if #match == 1 then
+    moveByField(playerHand, game.playArea, "charVal", match)
+  elseif #match == 2 then
+    moveByField(playerHand, playerScore, "charVal", match:sub(1, 1))
+    moveByField(game.playArea, playerScore, "charVal", match:sub(2, 2))
+  end
+  game.mode = "d"..playerNum
 end
 
-function updateDeckMove(match, game, playerHand, playerScore)
-
+function updateDeckMove(match, game, playerNum, playerHand, playerScore)
+  local oppositeNum = 3 - playerNum
+  if #match == 0 then
+    table.insert(game.playArea, game.deckFlip)
+  elseif #match == 1 then
+    moveByField(playerHand, playerScore, "charVal", match)
+    table.insert(playerScore, game.deckFlip)
+  end
+  game.mode = "h"..oppositeNum
 end
 
 function sendGameUpdate(playerNum, match, game)
@@ -192,7 +205,7 @@ function sendGameUpdate(playerNum, match, game)
   end
 
   local otherPlayer = 3 - playerNum
-  
+
   -- send message to player who sent move, approving it:
   sendUDP(data, game.players[playerNum].msg_or_ip, game.players[playerNum].port_or_nil)
 
