@@ -5,9 +5,7 @@ function setUpGame(data)
   charhand, charplay, opposingCards = string.match(data, "^!(.+)!(.+)!(%d)!$")
   hnums = {string.byte(charhand,1,#charhand)}
   for i=1,#hnums do
-    hnums[i] = hnums[i] - 64
-    local xc,yc = math.ceil(hnums[i]/4),(hnums[i]%4)
-    if yc==0 then yc=4 end
+    local xc,yc = getCardFromChar(hnums[i])
     table.insert(hand, cards[xc][yc])
     hand[i].x = 90*i - 80
     hand[i].y = 520
@@ -20,4 +18,11 @@ function setUpGame(data)
     table.insert(playArea, cards[x][y])
     playArea[i].x, playArea[i].y = getPlayAreaCoords()
   end
+end
+
+function getCardFromChar(c)
+  c = c - 64
+  local xc,yc = math.ceil(c/4),(c%4)
+  if yc==0 then yc=4 end
+  return xc, yc
 end

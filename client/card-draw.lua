@@ -24,12 +24,23 @@ function drawCards(yourGo)
     end
     pasteCard(j)
   end
+
+  -- Draw the backs of the oppositions cards
   love.graphics.setColor(255,255,255,255)
   for i=1,opposingCards do
     love.graphics.draw(cardBacks, (i*90)-80, 10)
   end
+
+  -- Draw the deck
+  love.graphics.setColor(255,255,255,255)
   for i=-5,0 do
     love.graphics.draw(cardBacks, 70 + (2*i), 265 + (2*i))
+  end
+
+  -- Draw the flip, if there is one
+  if deckFlip then
+    love.graphics.setColor(255,255,255,255)
+    pasteCard(deckFlip)
   end
 end
 

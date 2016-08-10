@@ -20,9 +20,10 @@ Make client work
     - [ ] They score, continue? (sn)
     - [ ] Game finished! (gf)
     - [ ] Menu (m)
-  - [ ] Write code for updating game when moves received from the server
+  - [x] Write code for updating game when moves received from the server
+  - [ ] Move the cards after they have arrived
   - [ ] Implement some method for dropping a card and sending that move
-  - [ ] Write code for receiving dealt card
+  - [x] Write code for receiving dealt card
   - [ ] Write code for displaying scored cards
   - [ ] Sort out ending game code
 
@@ -34,3 +35,7 @@ Other stuff
  - [ ] Split server into different files because it is getting long
  - [x] Fix issue with one player connected and another not connected (waiting stage?)
  - [ ] Change tween implementation to use dictionary-tables instead of list-tables
+
+ Weird bugs
+  - [ ] Sometimes moves don't seem to be verified, and I'm not yet sure why.
+        Examples: `]

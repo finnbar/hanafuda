@@ -24,6 +24,9 @@ selectedCard = 0
 playArea = {}
 playAreaLocations = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}}
 opposingCards = 8
+deckFlip = nil
+yourScore = {}
+theirScore = {}
 
 function love.load()
   cards = importCards(true)
