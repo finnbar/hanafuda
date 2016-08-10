@@ -1,19 +1,5 @@
 game = {}
 
-function game.update(dt)
-  for i, j in pairs(hand) do
-    hand[i] = updateCard(j)
-    local willBeMatched = false
-    for k, l in pairs(playArea) do
-      if j.month == l.month then
-        willBeMatched = true
-      end
-    end
-    hand[i].canBeMatched = willBeMatched
-  end
-  return game
-end
-
 function game.acceptMessage(data, msg)
   if string.sub(data,1,1) == "!" then
     setUpGame(data)
@@ -26,11 +12,6 @@ function game.acceptMessage(data, msg)
     errormsg = "Room in use."
     return menu
   end
-  return game
-end
-
-function game.draw()
-  drawCards(true)
   return game
 end
 

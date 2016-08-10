@@ -1,6 +1,6 @@
 package.path = package.path .. ";../both/?.lua"
 
-requires = {"cards-define","cards-score","useful", "card-draw", "game-setup", "game", "gameDeckPlay", "gameDeckWait", "gameHandPlay", "gameHandWait", "gameOver", "menu", "theyScore", "tween", "waiting", "youScore"}
+requires = {"cards-define","cards-score","useful", "card-draw", "game-setup", "game-updates", "game", "gameDeckPlay", "gameDeckWait", "gameHandPlay", "gameHandWait", "gameOver", "menu", "theyScore", "tween", "waiting", "youScore"}
 for i,j in pairs(requires) do
   require(j)
 end
