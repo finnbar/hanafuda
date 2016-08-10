@@ -108,7 +108,7 @@ function createNewGame(data, msg_or_ip, port_or_nil)
 end
 
 function updateGame(data, msg_or_ip, port_or_nil)
-  local roomname, username, match = string.match(data,"^>(%w+)>(%w+)>(%w*)")
+  local roomname, username, match = string.match(data,"^>(%w+)>(%w+)>(.*)")
   assert(roomname and username and match)
   local game = games[roomname]
   local msg_sent = false
@@ -172,7 +172,7 @@ function verifyDeckMove(match, game, playerHand)
     return true -- you can always drop a card
   elseif #match == 1 then
     -- Matching this card with the deck flip
-    local card = searchByField(playerHand, "charVal", match)
+    local card = searchByField(game.playArea, "charVal", match)
     return card and card.month == game.deckFlip.month
   else
     return false
@@ -197,7 +197,7 @@ function updateDeckMove(match, game, playerNum, playerHand, playerScore)
   if #match == 0 then
     table.insert(game.playArea, game.deckFlip)
   elseif #match == 1 then
-    moveByField(playerHand, playerScore, "charVal", match)
+    moveByField(game.playArea, playerScore, "charVal", match)
     table.insert(playerScore, game.deckFlip)
   end
   game.mode = "h"..oppositeNum

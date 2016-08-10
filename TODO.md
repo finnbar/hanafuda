@@ -37,5 +37,6 @@ Other stuff
  - [ ] Change tween implementation to use dictionary-tables instead of list-tables
 
  Weird bugs
-  - [ ] Sometimes moves don't seem to be verified, and I'm not yet sure why.
+  - [x] Sometimes moves don't seem to be verified, and I'm not yet sure why.
         Examples: `]
+  - [x] Deck selection doesn't work.

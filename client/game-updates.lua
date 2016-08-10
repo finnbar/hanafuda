@@ -1,6 +1,6 @@
 function updateYourHandMove(data)
   -- Update all the lists and data
-  local match, newCard = string.match(data,"^>(%w*)>(%w)>$")
+  local match, newCard = string.match(data,"^>(.*)>(.)>$")
   if #match == 1 then
     moveByField(hand, playArea, "charVal", match)
   else
@@ -18,7 +18,7 @@ function updateYourHandMove(data)
 end
 
 function updateTheirHandMove(data)
-  local match, newCard = string.match(data,"^>(%w*)>(%w)>$")
+  local match, newCard = string.match(data,"^>(.*)>(.)>$")
 
   -- Get the other players card and add to their score pile
   local theirX, theirY = getCardFromChar(match:byte()) -- first card is theirs
@@ -45,7 +45,7 @@ function updateTheirHandMove(data)
 end
 
 function updateYourDeckMove(data)
-  local match = string.match(data,"^>(%w*)>$")
+  local match = string.match(data,"^>(.*)>$")
   if #match == 0 then
     table.insert(playArea, deckFlip)
   elseif #match == 1 then
@@ -58,7 +58,7 @@ function updateYourDeckMove(data)
 end
 
 function updateTheirDeckMove(data)
-  local match = string.match(data,"^>(%w*)>$")
+  local match = string.match(data,"^>(.*)>$")
   if #match == 0 then
     table.insert(playArea, deckFlip)
     deckFlip = nil
