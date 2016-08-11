@@ -56,4 +56,4 @@ Weird bugs
        Examples: `]
  - [x] Deck selection doesn't work.
  - [x] Doesn't seem to like second moves (client) and third moves (server)
- - [ ] The scoring thing seems to be annoyed at me for giving insert wrong number of arguments when scoring bigs?
+ - [x] The scoring thing seems to be annoyed at me for giving insert wrong number of arguments when scoring bigs?

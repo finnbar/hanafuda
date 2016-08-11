@@ -24,6 +24,8 @@ function scoreBig(bigs)
     end
   elseif #bigs == 5 then
     return {15, "Gokō"}
+  else
+    return {0, ""}
   end
 end
 
