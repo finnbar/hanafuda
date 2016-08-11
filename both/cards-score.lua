@@ -196,3 +196,12 @@ function checkIfScores(cards)
     return {total, yaku}
   end
 end
+
+function numericalScore(cards)
+  local yaku = scoreCards(cards)
+  local total = 0
+  for i=1,#yaku do
+    total = total + yaku[i][1]
+  end
+  return total
+end

@@ -135,7 +135,7 @@ function updateGame(data, msg_or_ip, port_or_nil)
       if string.sub(game.mode, 1, 1) == "h" then
         if verifyHandMove(match, game, playerHand) then
           updateHandMove(match, game, playerNum, playerHand, playerScore)
-          sendGameUpdate(playerNum, match, game)
+          sendAllUpdates(playerNum, match, game)
           msg_sent = true
         else
           error_message = "Hand move verification failed"
@@ -143,7 +143,7 @@ function updateGame(data, msg_or_ip, port_or_nil)
       elseif string.sub(game.mode, 1, 1) == "d" then
         if verifyDeckMove(match, game, playerHand) then
           updateDeckMove(match, game, playerNum, playerHand, playerScore)
-          sendGameUpdate(playerNum, match, game)
+          sendAllUpdates(playerNum, match, game)
           msg_sent = true
         else
           error_message = "Deck move verification failed"
@@ -211,8 +211,8 @@ function updateHandMove(match, game, playerNum, playerHand, playerScore)
   game.mode = "d"..playerNum
 
   -- check if the game has been won
-  local newScore = scoreCards(playerScore)
-  if newScore > lastPlayerScore then
+  local newScore = numericalScore(playerScore)
+  if newScore > game.lastScore[playerNum] then
     game.status = "continue?"
     game.lastScore[playerNum] = newScore
   end
@@ -220,7 +220,7 @@ function updateHandMove(match, game, playerNum, playerHand, playerScore)
 end
 
 function updateDeckMove(match, game, playerNum, playerHand, playerScore)
-  local game.status = nil -- nothing to signal (yet)
+  game.status = nil -- nothing to signal (yet)
 
   local oppositeNum = 3 - playerNum
   if #match == 0 then
@@ -237,12 +237,25 @@ function updateDeckMove(match, game, playerNum, playerHand, playerScore)
   end
 
   -- check if the game has been won
-  local newScore = scoreCards(playerScore)
-  if newScore > lastPlayerScore then
+  local newScore = numericalScore(playerScore)
+  if newScore > game.lastScore[playerNum] then
     game.status = "continue?"
     game.lastScore[playerNum] = newScore
   end
 
+end
+
+function sendAllUpdates(playerNum, match, game)
+  if game.status then
+    if game.status == "draw" then
+      sendGameOver(game, 0)
+    elseif game.status == "continue?" then
+      sendKoiKoiUpdate(playerNum, match, game)
+    end
+  else
+    -- all is fine
+    sendGameUpdate(playerNum, match, game)
+  end
 end
 
 function sendGameUpdate(playerNum, match, game)
@@ -272,9 +285,9 @@ function sendKoiKoiUpdate(playerNum, match, game)
   -- Let both players know what match occurred and the score
   local score
   if playerNum == 1 then
-    score = game.score1
+    score = game.lastScore[playerNum]
   else
-    score = game.score2
+    score = game.lastScore[playerNum]
   end
 
   local msg = "?"..score.."?"..match.."?"
@@ -299,15 +312,19 @@ end
 
 function sendGameOver(game, winner)
   -- winner = 0 for draw, else player number
+  local score
+  if winner ~= 0 then
+    score = game.lastScore[winner]
+  end
 
   -- decide messages for both
   local player1_msg, player2_msg
   if winner == 0 then
     player1_msg, player2_msg = "<draw<", "<draw<"
   elseif winner == 1 then
-    player1_msg, player2_msg = "<win<"..game.score1.."<", "<lose<"..game.score1.."?"
+    player1_msg, player2_msg = "<win<"..score.."<", "<lose<"..score.."?"
   elseif winner == 2 then
-    player1_msg, player2_msg = "<lose<"..game.score2.."<", "<win<"..game.score2.."?"
+    player1_msg, player2_msg = "<lose<"..score.."<", "<win<"..score.."?"
   end
 
   -- send to both
