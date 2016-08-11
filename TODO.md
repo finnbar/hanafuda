@@ -31,7 +31,9 @@ Other stuff
  - [x] Get it to shuffle cards *differently* each time
  - [x] Separate client code and server code into folders
  - [ ] Rewrite tweens to get them to land more accurately
- - [ ] Make the empty card a bit less horrible and ideally transparent in centre
+ - [x] Make the empty card a bit less horrible and ideally transparent in centre
+ - [ ] Set selected card to nil when game update is received
+ - [ ] Move all cards in hand along or move arrows to above cards or both
  - [ ] Allow people to be randomly matched with opponents
  - [ ] Allow playing multiple games as part of a longer match
  - [ ] Split server into different files because it is getting long
