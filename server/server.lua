@@ -16,6 +16,9 @@ local users = {} -- a list of users, and the game they're in.
 local data, msg_or_ip, port_or_nil
 local cards = importCards(false)
 
+-- debug mode, for printing more stuff
+local debug = true
+
 function sendUDP(data,msg_or_ip,port_or_nil)
   print("Out > "..data)
   udp:sendto(data,msg_or_ip,port_or_nil)
@@ -112,6 +115,7 @@ function updateGame(data, msg_or_ip, port_or_nil)
   assert(roomname and username and match)
   local game = games[roomname]
   local msg_sent = false
+  local error_message = nil
   if game then
     local playerHand, playerScore, playerNum
     if string.sub(game.mode, 2, 2) == "1" then
@@ -124,6 +128,8 @@ function updateGame(data, msg_or_ip, port_or_nil)
       playerNum = 2
       playerHand = game.hand2
       playerScore = game.score2
+    else
+      error_message = "Game mode doesn't end in 1 or 2"
     end
     if playerNum and username == game.players[playerNum].username then
       if string.sub(game.mode, 1, 1) == "h" then
@@ -131,18 +137,29 @@ function updateGame(data, msg_or_ip, port_or_nil)
           updateHandMove(match, game, playerNum, playerHand, playerScore)
           sendGameUpdate(playerNum, match, game)
           msg_sent = true
+        else
+          error_message = "Hand move verification failed"
         end
       elseif string.sub(game.mode, 1, 1) == "d" then
         if verifyDeckMove(match, game, playerHand) then
           updateHandMove(match, game, playerNum, playerHand, playerScore)
           sendGameUpdate(playerNum, match, game)
           msg_sent = true
+        else
+          error_message = "Deck move verification failed"
         end
+      else
+        error_message = "Game mode doesn't start with h or d"
       end
+    else
+      error_message = "Player authentication failed"
     end
   end
   if not msg_sent then
     sendFailureMessage(msg_or_ip, port_or_nil)
+  end
+  if debug and error_message then
+    print("Error: " .. error_message)
   end
 end
 
