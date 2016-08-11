@@ -24,6 +24,7 @@ function updateYourHandMove(data)
 
   selectedCard = deckFlip
 
+  -- Move empty card into the next position
   local r,c
   r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
 end
@@ -61,6 +62,7 @@ function updateTheirHandMove(data)
 
   opposingCards = opposingCards - 1 -- They must have used a card
 
+  -- move empty card into next position
   local r,c
   r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
 
@@ -83,6 +85,8 @@ function updateYourDeckMove(data)
     moveBothToScorePile(deckFlip, playAreaToMove, newx1, newy1, newx2, newy2, 0.25, 0.25)
   end
   deckFlip = nil
+  selectedCard = nil
+
   local r,c
   r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
 

@@ -11,7 +11,7 @@ function drawCards(yourGo)
     pasteCard(j)
     if yourGo and j.canBeMatched then
       love.graphics.setColor(255,255,0,255)
-      love.graphics.polygon("fill", {(90*i) - 44.5, 505,(90*i) - 38, 515,(90*i) - 31.5, 505})
+      love.graphics.polygon("fill", {j.x + 35.5, 505,j.x + 42, 515,j.x + 48.5, 505})
     end
     love.graphics.setColor(255,255,255,255)
   end
