@@ -1,3 +1,6 @@
+local yourScoreCount = {small = 0, ribbon = 0, medium = 0, large = 0}
+local theirScoreCount = {small = 0, ribbon = 0, medium = 0, large = 0}
+
 function getPlayAreaCoords(addToLocations)
   local x,y = 0,0
   for i=1,#playAreaLocations do
@@ -23,10 +26,41 @@ function removeFromPlayAreaLocations(card)
 end
 
 function getScoreCoords(card, yourPile)
-  -- Temporary function just puts them in a pile
+  -- uses the card and current cards in the score pile to place cards
+
+  -- Get current count of large and small cards
+  local scoreCount
   if yourPile then
-    return 850, 600
+    scoreCount = yourScoreCount
   else
-    return 850, 100
+    scoreCount = theirScoreCount
   end
+
+  local x,y,extra
+
+  if card.value == 1 then
+    x = 750
+    extra = 10 * scoreCount.small
+    scoreCount.small = scoreCount.small + 1
+  elseif card.value == 5 then
+    x = 790
+    extra = 20 * scoreCount.ribbon
+    scoreCount.ribbon = scoreCount.ribbon + 1
+  elseif card.value == 10 or card.value == 7 then
+    x = 830
+    extra = 20 * scoreCount.medium
+    scoreCount.medium = scoreCount.medium + 1
+  else
+    x = 870
+    extra = 20 * scoreCount.large
+    scoreCount.large = scoreCount.large + 1
+  end
+
+  if yourPile then
+    y = 450 + extra
+  else
+    y = 50 + extra
+  end
+
+  return x,y
 end

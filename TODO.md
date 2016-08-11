@@ -24,7 +24,7 @@ Make client work
   - [x] Move the cards after they have arrived
   - [x] Implement some method for dropping a card and sending that move
   - [x] Write code for receiving dealt card
-  - [ ] Write code for displaying scored cards
+  - [x] Write code for displaying scored cards
   - [ ] Sort out ending game code
 
 Other stuff

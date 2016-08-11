@@ -1,7 +1,7 @@
 # hanafuda
 Play Koi-Koi with multiple people!
 
-It doesn't work yet, sadly, but hopefully it will soon.
+It kind of works, although scoring doesn't happen yet, sad.
 
 ## Running the program
 
