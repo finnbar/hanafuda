@@ -9,6 +9,12 @@ Make server work
  - [x] Write code for sending response messages
  - [x] Write code for dealing a card
  - [ ] Add scoring into receiving a card
+ - [ ] Sort out ending game code
+    - [ ] Check if player has scored extra
+    - [ ] Check if next player has run out of cards
+    - [ ] Send out Koi-Koi messages
+    - [ ] Receive Koi-Koi response
+    - [ ] Send out game over messages
 
 Make client work
  - [ ] Different states for the client (split into files):
@@ -26,6 +32,10 @@ Make client work
   - [x] Write code for receiving dealt card
   - [x] Write code for displaying scored cards
   - [ ] Sort out ending game code
+     - [ ] Add simple gamestate for scoring and opponent scoring
+     - [ ] Add simple gamestate for wins, loses and draws
+     - [ ] Separate game-updates so can be called without full data
+     - [ ] Return to previous state and process deck flip if required
 
 Other stuff
  - [x] Get it to shuffle cards *differently* each time
