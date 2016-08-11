@@ -10,8 +10,8 @@ Make server work
  - [x] Write code for dealing a card
  - [ ] Add scoring into receiving a card
  - [ ] Sort out ending game code
-    - [ ] Check if player has scored extra
-    - [ ] Check if next player has run out of cards
+    - [x] Check if player has scored extra
+    - [x] Check if next player has run out of cards
     - [ ] Send out Koi-Koi messages
     - [ ] Receive Koi-Koi response
     - [ ] Send out game over messages

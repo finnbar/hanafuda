@@ -103,7 +103,7 @@ function createNewGame(data, msg_or_ip, port_or_nil)
         table.insert(h2, table.remove(d,1))
         table.insert(p, table.remove(d,1))
       end
-      games[newroomname] = {deck = d, hand1 = h1, hand2 = h2, playArea = p, score1 = {}, score2 = {},  players = {{username = newusername, msg_or_ip = msg_or_ip, port_or_nil = port_or_nil}}, mode="h1"}
+      games[newroomname] = {deck = d, hand1 = h1, hand2 = h2, playArea = p, score1 = {}, score2 = {},  players = {{username = newusername, msg_or_ip = msg_or_ip, port_or_nil = port_or_nil}}, mode="h1", lastScore = {0, 0}}
       users[newusername] = newroomname
       sendUDP("&", msg_or_ip, port_or_nil)
     end
@@ -197,6 +197,8 @@ function verifyDeckMove(match, game, playerHand)
 end
 
 function updateHandMove(match, game, playerNum, playerHand, playerScore)
+  game.status = nil -- nothing to signal (yet)
+
   if #match == 1 then
     moveByField(playerHand, game.playArea, "charVal", match)
   elseif #match == 2 then
@@ -207,9 +209,19 @@ function updateHandMove(match, game, playerNum, playerHand, playerScore)
   game.deckFlip = table.remove(game.deck, 1)
 
   game.mode = "d"..playerNum
+
+  -- check if the game has been won
+  local newScore = scoreCards(playerScore)
+  if newScore > lastPlayerScore then
+    game.status = "continue?"
+    game.lastScore[playerNum] = newScore
+  end
+
 end
 
 function updateDeckMove(match, game, playerNum, playerHand, playerScore)
+  local game.status = nil -- nothing to signal (yet)
+
   local oppositeNum = 3 - playerNum
   if #match == 0 then
     table.insert(game.playArea, game.deckFlip)
@@ -218,6 +230,19 @@ function updateDeckMove(match, game, playerNum, playerHand, playerScore)
     table.insert(playerScore, game.deckFlip)
   end
   game.mode = "h"..oppositeNum
+
+  -- check if we have run out of game moves
+  if #game.hand1 == 0 and #game.hand2 == 0 then
+    game.status = "draw"
+  end
+
+  -- check if the game has been won
+  local newScore = scoreCards(playerScore)
+  if newScore > lastPlayerScore then
+    game.status = "continue?"
+    game.lastScore[playerNum] = newScore
+  end
+
 end
 
 function sendGameUpdate(playerNum, match, game)
