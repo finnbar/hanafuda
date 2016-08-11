@@ -333,6 +333,28 @@ function sendGameOver(game, winner)
 
 end
 
+function koiKoiUpdate(data, msg_or_ip, port_or_nil)
+  local roomname, username, response = string.match(data, "?(%w+)?(%w+)?(%w+)")
+  local game = games[roomname]
+
+  if game then
+    local playerNum
+    if game.mode:sub(2,2) == "1" then
+      playerNum = 1
+    else
+      playerNum = 2
+    end
+
+    if username == game.players[playerNum].username then
+      if response == "continue" then
+        sendContinueUpdate(game)
+      elseif response == "stop" then
+        sendGameOver(game, playerNum)
+      end
+    end
+  end
+end
+
 function main()
   math.randomseed(os.time()) -- Otherwise we get the same cards whenever server restarts
   while running do
@@ -353,6 +375,8 @@ function main()
         createNewGame(data, msg_or_ip, port_or_nil)
       elseif string.sub(data,1,1) == ">" then
         updateGame(data, msg_or_ip, port_or_nil)
+      elseif string.sub(data,1,1) == "?" then
+        koiKoiUpdate(data, msg_or_ip, port_or_nil)
       end
     elseif msg_or_ip ~= 'timeout' then
       error("Unknown network error: "..tostring(msg_or_ip))
