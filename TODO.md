@@ -40,4 +40,4 @@ Other stuff
   - [x] Sometimes moves don't seem to be verified, and I'm not yet sure why.
         Examples: `]
   - [x] Deck selection doesn't work.
-  - [ ] Doesn't seem to like second moves (client) and third moves (server)
+  - [x] Doesn't seem to like second moves (client) and third moves (server)

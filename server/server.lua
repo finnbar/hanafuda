@@ -142,7 +142,7 @@ function updateGame(data, msg_or_ip, port_or_nil)
         end
       elseif string.sub(game.mode, 1, 1) == "d" then
         if verifyDeckMove(match, game, playerHand) then
-          updateHandMove(match, game, playerNum, playerHand, playerScore)
+          updateDeckMove(match, game, playerNum, playerHand, playerScore)
           sendGameUpdate(playerNum, match, game)
           msg_sent = true
         else
@@ -222,11 +222,7 @@ end
 
 function sendGameUpdate(playerNum, match, game)
   local data
-  if #match == 1 then
-    data = string.format(">%s>", match)
-  else
-    data = string.format(">%s%s>", match:sub(1,1), match:sub(2,2))
-  end
+  data = ">" .. match .. ">"
 
   if game.mode:sub(1,1) == "d" then
     -- We need to deal a card
