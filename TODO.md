@@ -30,7 +30,7 @@ Make client work
 Other stuff
  - [x] Get it to shuffle cards *differently* each time
  - [x] Separate client code and server code into folders
- - [ ] Rewrite tweens to get them to land more accurately
+ - [x] Rewrite tweens to get them to land more accurately
  - [x] Make the empty card a bit less horrible and ideally transparent in centre
  - [x] Set selected card to nil when game update is received
  - [x] Move all cards in hand along or move arrows to above cards or both
@@ -39,7 +39,7 @@ Other stuff
  - [ ] Split server into different files because it is getting long
  - [ ] Remove arrows from cards when in deck flip mode
  - [x] Fix issue with one player connected and another not connected (waiting stage?)
- - [ ] Change tween implementation to use dictionary-tables instead of list-tables
+ - [x] Change tween implementation to use dictionary-tables instead of list-tables
 
 Weird bugs
  - [x] Sometimes moves don't seem to be verified, and I'm not yet sure why.

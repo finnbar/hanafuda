@@ -4,33 +4,38 @@
 
 function createTweens(t)
   -- t is a list of tweens in form {start, end, length}.
-  local tweens = {}
-  for i,j in pairs(t) do
-    table.insert(tweens, j)
-    table.insert(tweens[#tweens], 0) -- add the last field, currentTime
+  local transitions = {}
+  for i,trans in pairs(t) do
+    table.insert(transitions, {startNum = trans[1], endNum = trans[2], length = trans[3], currentTime = 0})
   end
-  return tweens -- a list of tweens in form {start, end, length, currentTime}
+
+  local finalNum = transitions[#transitions].endNum
+
+  return {finalNum = finalNum, transitions = transitions} -- A table with its final position and a list of transitions (tween tables)
 end
 
 function updateTweens(t,dt) -- tween, deltatime
-  if t[1] ~= nil then
-    t[1][4] = t[1][4] + dt -- update currentTime
-    if t[1][4] >= t[1][3] then
-      local dt = t[1][4] - t[1][3]
-      table.remove(t,1)
-      if t[1] ~= nil then
-        t[1][4] = t[1][4] + dt
+  local trans = t.transitions
+  if #trans ~= 0 then
+    trans[1].currentTime = trans[1].currentTime + dt -- update currentTime
+    if trans[1].currentTime >= trans[1].length then
+      local dt = trans[1].currentTime - trans[1].length
+      table.remove(trans,1)
+      if trans[1] then
+        -- transfer remaining time to next tween
+        trans[1].currentTime = trans[1].currentTime + dt
       end
     end
-    return t -- returns tweens if there is still motion, else false
-  else
-    return {}
   end
+  return t -- returns tweens
 end
 
 function valueTween(t)
-  if #t ~= 0 then
-    local currentTween = t[1]
-    return currentTween[1] + ((currentTween[2] - currentTween[1])*(currentTween[4] / currentTween[3]))
-  else return nil end
+  local trans = t.transitions
+  if #trans ~= 0 then
+    local currentTween = trans[1]
+    return currentTween.startNum + ((currentTween.endNum - currentTween.startNum)*(currentTween.currentTime / currentTween.length))
+  else
+    return t.finalNum
+  end
 end
