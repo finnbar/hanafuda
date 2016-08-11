@@ -243,6 +243,54 @@ function sendFailureMessage(msg_or_ip, port_or_nil)
   sendUDP("~", msg_or_ip, port_or_nil)
 end
 
+function sendKoiKoiUpdate(playerNum, match, game)
+  -- Let both players know what match occurred and the score
+  local score
+  if playerNum == 1 then
+    score = game.score1
+  else
+    score = game.score2
+  end
+
+  local msg = "?"..score.."?"..match.."?"
+
+  -- send to both
+  sendUDP(msg, game.players[1].msg_or_ip, game.players[1].port_or_nil)
+  sendUDP(msg, game.players[2].msg_or_ip, game.players[2].port_or_nil)
+end
+
+function sendContinueUpdate(game)
+  local msg -- send flip if necessary, else just question marks
+  if game.mode:sub(1,1) == "d" then
+    msg = "?" .. game.deckFlip .. "?"
+  else
+    msg = "??"
+  end
+
+  -- send to both
+  sendUDP(msg, game.players[1].msg_or_ip, game.players[1].port_or_nil)
+  sendUDP(msg, game.players[2].msg_or_ip, game.players[2].port_or_nil)
+end
+
+function sendGameOver(game, winner)
+  -- winner = 0 for draw, else player number
+
+  -- decide messages for both
+  local player1_msg, player2_msg
+  if winner == 0 then
+    player1_msg, player2_msg = "<draw<", "<draw<"
+  elseif winner == 1 then
+    player1_msg, player2_msg = "<win<"..game.score1.."<", "<lose<"..game.score1.."?"
+  elseif winner == 2 then
+    player1_msg, player2_msg = "<lose<"..game.score2.."<", "<win<"..game.score2.."?"
+  end
+
+  -- send to both
+  sendUDP(player1_msg, game.players[1].msg_or_ip, game.players[1].port_or_nil)
+  sendUDP(player2_msg, game.players[2].msg_or_ip, game.players[2].port_or_nil)
+
+end
+
 function main()
   math.randomseed(os.time()) -- Otherwise we get the same cards whenever server restarts
   while running do
@@ -257,6 +305,8 @@ function main()
       -- > => move or update
       -- ~ => failure message
       -- & => sends to waiting area
+      -- ? => Koi-Koi
+      -- < => game ending.
       if string.sub(data,1,1) == "#" then
         createNewGame(data, msg_or_ip, port_or_nil)
       elseif string.sub(data,1,1) == ">" then
