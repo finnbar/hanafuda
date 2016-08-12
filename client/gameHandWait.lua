@@ -6,9 +6,12 @@ function gameHandWait.draw()
 end
 
 function gameHandWait.acceptMessage(data, msg)
-  if string.sub(data,1,1) == ">" then
+  if data:sub(1,1) == ">" then
     updateTheirHandMove(data)
     return gameDeckWait
+  elseif data:sub(1,1) == "?" then
+    updateTheirHandScore(data)
+    return theyScore
   end
   return gameHandWait
 end

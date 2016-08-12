@@ -6,9 +6,12 @@ function gameDeckPlay.draw()
 end
 
 function gameDeckPlay.acceptMessage(data, msg)
-  if string.sub(data,1,1) == ">" then
+  if data:sub(1,1) == ">" then
     updateYourDeckMove(data)
     return gameHandWait
+  elseif data:sub(1,1) == "?" then
+    updateYourDeckScore(data)
+    return youScore
   end
   return gameDeckPlay
 end

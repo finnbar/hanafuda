@@ -27,6 +27,7 @@ opposingCards = 8
 deckFlip = nil
 yourScore = {}
 theirScore = {}
+totalScore = 0
 
 function love.load()
   cards = importCards(true)
@@ -107,7 +108,7 @@ function updateAllCards(dt)
   for i,j in pairs(hand) do
     updateCard(j, dt)
   end
-  
+
   if deckFlip then
     updateCard(deckFlip, dt)
   end

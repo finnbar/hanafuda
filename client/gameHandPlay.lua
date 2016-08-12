@@ -56,11 +56,14 @@ function gameHandPlay.mousepressed(x, y, button, istouch)
 end
 
 function gameHandPlay.acceptMessage(data, msg)
-  if string.sub(data,1,1) == "~" then
+  if data:sub(1,1) == "~" then
     -- failure message somehow (deal with this later)
-  elseif string.sub(data,1,1) == ">" then
+  elseif data:sub(1,1) == ">" then
     updateYourHandMove(data)
     return gameDeckPlay
+  elseif data:sub(1,1) == "?" then
+    updateYourHandScore(data)
+    return youScore
   end
   return gameHandPlay
 end

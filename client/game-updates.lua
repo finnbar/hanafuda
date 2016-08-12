@@ -20,6 +20,30 @@ function updateTheirDeckMove(data)
   processTheirDeckMatch(match)
 end
 
+function updateYourHandScore(data)
+  local score,match = string.match(data, "%?(%d+)%?(.*)%?") -- oops, forgot ? was regex special character
+  totalScore = tonumber(score)
+  processYourHandMatch(match)
+end
+
+function updateTheirHandScore(data)
+  local score,match = string.match(data, "%?(%d+)%?(.*)%?") -- oops, forgot ? was regex special character
+  totalScore = tonumber(score)
+  processTheirHandMatch(match)
+end
+
+function updateYourDeckScore(data)
+  local score,match = string.match(data, "%?(%d+)%?(.*)%?") -- oops, forgot ? was regex special character
+  totalScore = tonumber(score)
+  processYourDeckMatch(match)
+end
+
+function updateTheirDeckScore(data)
+  local score,match = string.match(data, "%?(%d+)%?(.*)%?") -- oops, forgot ? was regex special character
+  totalScore = tonumber(score)
+  processTheirDeckMatch(match)
+end
+
 function processYourHandMatch(match)
   -- Update all the lists and data
   if #match == 1 then
