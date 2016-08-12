@@ -15,7 +15,7 @@ Make server work
     - [x] Send out Koi-Koi messages
     - [x] Receive Koi-Koi response
     - [x] Send out game over messages
-    - [ ] If continue is chosen but no cards left, send draw message
+    - [x] If continue is chosen but no cards left, send game over draw message
 
 Make client work
  - [x] Different states for the client (split into files):
@@ -46,6 +46,7 @@ Other stuff
  - [x] Make the empty card a bit less horrible and ideally transparent in centre
  - [x] Set selected card to nil when game update is received
  - [x] Move all cards in hand along or move arrows to above cards or both
+ - [ ] Implement multipliers!
  - [ ] Allow people to be randomly matched with opponents
  - [ ] Allow playing multiple games as part of a longer match
  - [ ] Split server into different files because it is getting long

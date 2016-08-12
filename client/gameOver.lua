@@ -32,7 +32,7 @@ end
 function drawGameOverScreen(msg1, msg2)
   love.graphics.setColor(0,0,0)
   love.graphics.setFont(largefont)
-  love.graphics.printf(msg1,100,200,love.graphics.getWidth()-200,"center")
+  love.graphics.printf(msg1,100,300,love.graphics.getWidth()-200,"center")
   love.graphics.setFont(midfont)
-  love.graphics.printf(msg2,100,350,love.graphics.getWidth()-200,"center")
+  love.graphics.printf(msg2,100,400,love.graphics.getWidth()-200,"center")
 end

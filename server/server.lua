@@ -357,6 +357,11 @@ function koiKoiUpdate(data, msg_or_ip, port_or_nil)
 
     if username == game.players[playerNum].username then
       if response == "continue" then
+        if #game.hand1 == 0 and #game.hand2 == 0 and game.mode:sub(1,1) == "h" then
+          -- they have run out of moves, so it is a draw...
+          -- I don't know why they continued either.
+          sendGameOver(game, 0)
+        end
         sendContinueUpdate(game)
       elseif response == "stop" then
         sendGameOver(game, playerNum)
