@@ -34,7 +34,7 @@ Make client work
   - [ ] Sort out ending game code
      - [ ] Add simple gamestate for scoring and opponent scoring
      - [ ] Add simple gamestate for wins, loses and draws
-     - [ ] Separate game-updates so can be called without full data
+     - [x] Separate game-updates so can be called without full data
      - [ ] Return to previous state and process deck flip if required
 
 Other stuff

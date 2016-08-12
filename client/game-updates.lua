@@ -1,6 +1,27 @@
 function updateYourHandMove(data)
-  -- Update all the lists and data
   local match, newCard = string.match(data,"^>(.*)>(.)>$")
+  processYourHandMatch(match)
+  processFlip(newCard)
+end
+
+function updateTheirHandMove(data)
+  local match, newCard = string.match(data,"^>(.*)>(.)>$")
+  processTheirHandMatch(match)
+  processFlip(newCard)
+end
+
+function updateYourDeckMove(data)
+  local match = string.match(data,"^>(.*)>$")
+  processYourDeckMatch(match)
+end
+
+function updateTheirDeckMove(data)
+  local match = string.match(data,"^>(.*)>$")
+  processTheirDeckMatch(match)
+end
+
+function processYourHandMatch(match)
+  -- Update all the lists and data
   if #match == 1 then
     local toPlace = searchByField(hand, "charVal", match)
     moveByField(hand, playArea, "charVal", match)
@@ -18,6 +39,9 @@ function updateYourHandMove(data)
 
     moveBothToScorePile(handToMove, playAreaToMove, newx1, newy1, newx2, newy2, 0.25, 0.25)
   end
+end
+
+function processFlip(newCard)
   local xc,yc = getCardFromChar(newCard:byte())
   deckFlip = cards[xc][yc]
   deckFlip.x, deckFlip.y = 70, 265
@@ -29,10 +53,8 @@ function updateYourHandMove(data)
   r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
 end
 
-function updateTheirHandMove(data)
-  local match, newCard = string.match(data,"^>(.*)>(.)>$")
-
-  -- Get the other players card and add to their score pile
+function processTheirHandMatch(match)
+  -- Get the other players card and move to their hand
   local theirX, theirY = getCardFromChar(match:byte()) -- first card is theirs
   local theirCard = cards[theirX][theirY]
   theirCard.x, theirCard.y = (opposingCards*90)-80, 10
@@ -52,24 +74,11 @@ function updateTheirHandMove(data)
     removeFromPlayAreaLocations(playAreaToMove)
 
     moveBothToScorePile(theirCard, playAreaToMove, newx1, newy1, newx2, newy2, 0.25, 0.25)
-
   end
-
-  -- Deal with the deck flip
-  local xc,yc = getCardFromChar(newCard:byte())
-  deckFlip = cards[xc][yc]
-  deckFlip.x, deckFlip.y = 70, 265
-
   opposingCards = opposingCards - 1 -- They must have used a card
-
-  -- move empty card into next position
-  local r,c
-  r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
-
 end
 
-function updateYourDeckMove(data)
-  local match = string.match(data,"^>(.*)>$")
+function processYourDeckMatch(match)
   if #match == 0 then
     table.insert(playArea, deckFlip)
     moveToPlayArea(deckFlip, 0.5)
@@ -89,11 +98,9 @@ function updateYourDeckMove(data)
 
   local r,c
   r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
-
 end
 
-function updateTheirDeckMove(data)
-  local match = string.match(data,"^>(.*)>$")
+function processTheirDeckMatch(match)
   if #match == 0 then
     table.insert(playArea, deckFlip)
     moveToPlayArea(deckFlip, 0.5)
@@ -109,10 +116,10 @@ function updateTheirDeckMove(data)
     moveBothToScorePile(deckFlip, playAreaToMove, newx1, newy1, newx2, newy2, 0.25, 0.25)
   end
   deckFlip = nil
+  selectedCard = nil
 
   local r,c
   r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
-
 end
 
 function moveBothToScorePile(card1, card2, newx1, newy1, newx2, newy2, time1, time2)
