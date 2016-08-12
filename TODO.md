@@ -49,7 +49,7 @@ Other stuff
  - [ ] Implement multipliers.
  - [ ] Allow people to be randomly matched with opponents
  - [ ] Allow playing multiple games as part of a longer match
- - [ ] Split server into different files because it is long
+ - [x] Split server into different files because it is long
  - [x] Remove arrows from cards when in deck flip mode
  - [x] Change the overlay for scoring to black on white or white on black
  - [x] Move the hand cards along when one is played
