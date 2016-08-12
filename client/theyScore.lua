@@ -7,6 +7,20 @@ function theyScore.draw()
 end
 
 function theyScore.acceptMessage(data, msg)
+  if data:sub(1,1) == "?" then
+    -- continue!
+    newCard = match(data, "%?(.*)%?")
+    if #newCard == 0 then
+      return gameHandPlay
+    else
+      processFlip(newCard)
+      return gameDeckWait
+    end
+  elseif data:sub(1,1) == "<" then
+    -- game over
+    processGameOver(data)
+    return gameOver
+  end
   return theyScore
 end
 
