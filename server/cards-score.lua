@@ -205,5 +205,9 @@ function numericalScore(cards)
   for i=1,#yaku do
     total = total + yaku[i][1]
   end
-  return total
+  if total >= 7 then
+    return total * 2
+  else
+    return total
+  end
 end

@@ -2,9 +2,9 @@ function sendKoiKoiUpdate(playerNum, match, game)
   -- Let both players know what match occurred and the score
   local score
   if playerNum == 1 then
-    score = game.lastScore[playerNum]
+    score = game.lastScore[playerNum] * game.multipliers[playerNum]
   else
-    score = game.lastScore[playerNum]
+    score = game.lastScore[playerNum] * game.multipliers[playerNum]
   end
 
   local msg = "?"..score.."?"..match.."?"
@@ -31,7 +31,7 @@ function sendGameOver(game, winner)
   -- winner = 0 for draw, else player number
   local score
   if winner ~= 0 then
-    score = game.lastScore[winner]
+    score = game.lastScore[winner] * game.multipliers[winner]
   end
 
   -- decide messages for both

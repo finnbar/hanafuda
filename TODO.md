@@ -46,7 +46,7 @@ Other stuff
  - [x] Make the empty card a bit less horrible and ideally transparent in centre
  - [x] Set selected card to nil when game update is received
  - [x] Move all cards in hand along or move arrows to above cards or both
- - [ ] Implement multipliers.
+ - [x] Implement multipliers.
  - [ ] Allow people to be randomly matched with opponents
  - [ ] Allow playing multiple games as part of a longer match
  - [x] Split server into different files because it is long

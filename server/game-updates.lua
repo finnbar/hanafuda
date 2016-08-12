@@ -87,6 +87,8 @@ end
 function updateHandMove(match, game, playerNum, playerHand, playerScore)
   game.status = nil -- nothing to signal (yet)
 
+  local oppositeNum = 3 - playerNum
+
   if #match == 1 then
     moveByField(playerHand, game.playArea, "charVal", match)
   elseif #match == 2 then
@@ -103,6 +105,9 @@ function updateHandMove(match, game, playerNum, playerHand, playerScore)
   if newScore > game.lastScore[playerNum] then
     game.status = "continue?"
     game.lastScore[playerNum] = newScore
+    if game.lastScore[oppositeNum] ~= 0 then
+      game.multipliers[playerNum] = 2
+    end
   end
 
 end
@@ -129,6 +134,10 @@ function updateDeckMove(match, game, playerNum, playerHand, playerScore)
   if newScore > game.lastScore[playerNum] then
     game.status = "continue?"
     game.lastScore[playerNum] = newScore
+    if game.lastScore[oppositeNum] ~= 0 then
+      -- they must have continued, so double score
+      game.multipliers[playerNum] = 2
+    end
   end
 
 end
