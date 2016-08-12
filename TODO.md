@@ -35,7 +35,7 @@ Make client work
      - [x] Add simple gamestate for scoring and opponent scoring
      - [ ] Add simple gamestate for wins, loses and draws
      - [x] Separate game-updates so can be called without full data
-     - [ ] Return to previous state and process deck flip if required
+     - [x] Return to previous state and process deck flip if required
 
 Other stuff
  - [x] Get it to shuffle cards *differently* each time

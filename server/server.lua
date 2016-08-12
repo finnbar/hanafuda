@@ -300,7 +300,7 @@ end
 function sendContinueUpdate(game)
   local msg -- send flip if necessary, else just question marks
   if game.mode:sub(1,1) == "d" then
-    msg = "?" .. game.deckFlip .. "?"
+    msg = "?" .. game.deckFlip.charVal .. "?"
   else
     msg = "??"
   end
@@ -322,9 +322,9 @@ function sendGameOver(game, winner)
   if winner == 0 then
     player1_msg, player2_msg = "<draw<", "<draw<"
   elseif winner == 1 then
-    player1_msg, player2_msg = "<win<"..score.."<", "<lose<"..score.."?"
+    player1_msg, player2_msg = "<win<"..score.."<", "<lose<"..score.."<"
   elseif winner == 2 then
-    player1_msg, player2_msg = "<lose<"..score.."<", "<win<"..score.."?"
+    player1_msg, player2_msg = "<lose<"..score.."<", "<win<"..score.."<"
   end
 
   -- send to both
@@ -340,9 +340,19 @@ function koiKoiUpdate(data, msg_or_ip, port_or_nil)
   if game then
     local playerNum
     if game.mode:sub(2,2) == "1" then
-      playerNum = 1
+      if game.mode:sub(1,1) == "h" then
+        -- just changed, so the player we want an update from is actually 2
+        playerNum = 2
+      else
+        playerNum = 1
+      end
     else
-      playerNum = 2
+      if game.mode:sub(1,1) == "h" then
+        -- just changed, so the player we want an update from is actually 1
+        playerNum = 1
+      else
+        playerNum = 2
+      end
     end
 
     if username == game.players[playerNum].username then
