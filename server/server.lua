@@ -320,7 +320,7 @@ function sendGameOver(game, winner)
   -- decide messages for both
   local player1_msg, player2_msg
   if winner == 0 then
-    player1_msg, player2_msg = "<draw<", "<draw<"
+    player1_msg, player2_msg = "<draw<<", "<draw<<"
   elseif winner == 1 then
     player1_msg, player2_msg = "<win<"..score.."<", "<lose<"..score.."<"
   elseif winner == 2 then

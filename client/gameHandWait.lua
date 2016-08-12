@@ -12,6 +12,9 @@ function gameHandWait.acceptMessage(data, msg)
   elseif data:sub(1,1) == "?" then
     updateTheirHandScore(data)
     return theyScore
+  elseif data:sub(1,1) == "<" then
+    processGameOver(data)
+    return gameOver
   end
   return gameHandWait
 end

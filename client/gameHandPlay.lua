@@ -64,6 +64,9 @@ function gameHandPlay.acceptMessage(data, msg)
   elseif data:sub(1,1) == "?" then
     updateYourHandScore(data)
     return youScore
+  elseif data:sub(1,1) == "<" then
+    processGameOver(data)
+    return gameOver
   end
   return gameHandPlay
 end

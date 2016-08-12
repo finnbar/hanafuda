@@ -32,12 +32,12 @@ Make client work
   - [x] Implement some method for dropping a card and sending that move
   - [x] Write code for receiving dealt card
   - [x] Write code for displaying scored cards
-  - [ ] Sort out ending game code
+  - [x] Sort out ending game code
      - [x] Add simple gamestate for scoring and opponent scoring
      - [x] Add simple gamestate for wins, loses and draws
      - [x] Separate game-updates so can be called without full data
      - [x] Return to previous state and process deck flip if required
-     - [ ] Process draw / end game requests when playing game
+     - [x] Process draw / end game requests when playing game
 
 Other stuff
  - [x] Get it to shuffle cards *differently* each time

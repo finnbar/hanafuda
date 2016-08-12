@@ -12,6 +12,9 @@ function gameDeckPlay.acceptMessage(data, msg)
   elseif data:sub(1,1) == "?" then
     updateYourDeckScore(data)
     return youScore
+  elseif data:sub(1,1) == "<" then
+    processGameOver(data)
+    return gameOver
   end
   return gameDeckPlay
 end
