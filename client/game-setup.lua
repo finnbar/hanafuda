@@ -1,4 +1,4 @@
-function setUpGame(data)
+function setUpGame(data, firstPlayer)
   -- It's a new game state, which we should unpack.
   -- Format:
   -- !handaschars!playareaaschars!numberofcardsopponenthas!
@@ -20,6 +20,11 @@ function setUpGame(data)
   end
   local r,c
   r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
+
+  if firstPlayer then
+    setCanBeMatched()
+  end
+
 end
 
 function getCardFromChar(c)

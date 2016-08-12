@@ -50,7 +50,7 @@ Other stuff
  - [ ] Allow people to be randomly matched with opponents
  - [ ] Allow playing multiple games as part of a longer match
  - [ ] Split server into different files because it is long
- - [ ] Remove arrows from cards when in deck flip mode
+ - [x] Remove arrows from cards when in deck flip mode
  - [ ] Change the overlay for scoring to black on white or white on black
  - [ ] Move the hand cards along when one is played
  - [ ] Say whose go it is.

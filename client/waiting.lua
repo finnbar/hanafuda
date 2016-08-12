@@ -9,7 +9,7 @@ end
 
 function waiting.acceptMessage(data, msg)
   if string.sub(data,1,1) == "!" then
-    setUpGame(data)
+    setUpGame(data, true)
     return gameHandPlay
   end
   return waiting

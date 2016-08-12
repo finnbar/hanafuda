@@ -62,6 +62,8 @@ function processYourHandMatch(match)
     removeFromPlayAreaLocations(playAreaToMove)
 
     moveBothToScorePile(handToMove, playAreaToMove, newx1, newy1, newx2, newy2, 0.25, 0.25)
+
+    removeCanBeMatched() -- unmatch all, so no triangles
   end
 end
 
@@ -144,6 +146,8 @@ function processTheirDeckMatch(match)
 
   local r,c
   r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
+
+  setCanBeMatched() -- set canBeMatched here as computing repeatedly in update wastes time
 end
 
 function moveBothToScorePile(card1, card2, newx1, newy1, newx2, newy2, time1, time2)
@@ -161,4 +165,23 @@ function moveToPlayArea(card, time)
   card.row, card.col, newx, newy = getPlayAreaCoords(true)
   card.tweens.x = createTweens({{card.x, newx, time}})
   card.tweens.y = createTweens({{card.y, newy, time}})
+end
+
+function removeCanBeMatched()
+  for _,card in pairs(hand) do
+    card.canBeMatched = false
+  end
+end
+
+function setCanBeMatched()
+  for i, j in pairs(hand) do
+    hand[i] = updateCard(j)
+    local willBeMatched = false
+    for k, l in pairs(playArea) do
+      if j.month == l.month then
+        willBeMatched = true
+      end
+    end
+    hand[i].canBeMatched = willBeMatched
+  end
 end

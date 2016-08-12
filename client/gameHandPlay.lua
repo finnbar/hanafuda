@@ -7,16 +7,6 @@ end
 
 function gameHandPlay.update(dt)
   updateAllCards(dt)
-  for i, j in pairs(hand) do
-    hand[i] = updateCard(j)
-    local willBeMatched = false
-    for k, l in pairs(playArea) do
-      if j.month == l.month then
-        willBeMatched = true
-      end
-    end
-    hand[i].canBeMatched = willBeMatched
-  end
   return gameHandPlay
 end
 
@@ -43,7 +33,7 @@ function gameHandPlay.mousepressed(x, y, button, istouch)
         end
       end
     end
-    -- check if it is in the empty card
+    -- check if it is the empty card
     if pointerInCard(emptyCard, x, y) then
       if selectedCard then
         udp:send(">"..roomname..">"..username..">"..selectedCard.charVal)

@@ -60,7 +60,7 @@ end
 
 function menu.acceptMessage(data, msg)
   if data:sub(1,1) == "!" then
-    setUpGame(data)
+    setUpGame(data, false)
     return gameHandWait
   elseif data:sub(1,1) == "&" then
     return waiting
