@@ -64,6 +64,7 @@ function processYourHandMatch(match)
     moveBothToScorePile(handToMove, playAreaToMove, newx1, newy1, newx2, newy2, 0.25, 0.25)
 
     removeCanBeMatched() -- unmatch all, so no triangles
+    moveHandAlong() -- move everything along to make up for removed card
   end
 end
 
@@ -183,5 +184,13 @@ function setCanBeMatched()
       end
     end
     hand[i].canBeMatched = willBeMatched
+  end
+end
+
+function moveHandAlong()
+  for i,j in pairs(hand) do
+    local newx, newy = getHandCoordinates(i)
+    j.tweens.x = createTweens({{j.x, newx, 0.25}})
+    j.tweens.y = createTweens({{j.y, newy, 0.25}})
   end
 end

@@ -64,3 +64,7 @@ function getScoreCoords(card, yourPile)
 
   return x,y
 end
+
+function getHandCoordinates(i)
+  return 90*i - 80, 520
+end

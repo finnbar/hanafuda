@@ -52,7 +52,7 @@ Other stuff
  - [ ] Split server into different files because it is long
  - [x] Remove arrows from cards when in deck flip mode
  - [ ] Change the overlay for scoring to black on white or white on black
- - [ ] Move the hand cards along when one is played
+ - [x] Move the hand cards along when one is played
  - [ ] Say whose go it is.
  - [ ] Get a font that draws question marks, full stops and zeros.
  - [x] Fix issue with one player connected and another not connected (waiting stage?)

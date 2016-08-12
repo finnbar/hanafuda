@@ -7,8 +7,7 @@ function setUpGame(data, firstPlayer)
   for i=1,#hnums do
     local xc,yc = getCardFromChar(hnums[i])
     table.insert(hand, cards[xc][yc])
-    hand[i].x = 90*i - 80
-    hand[i].y = 520
+    hand[i].x, hand[i].y = getHandCoordinates(i)
   end
   local pnums = {string.byte(charplay,1,#charplay)}
   for i=1,#pnums do
