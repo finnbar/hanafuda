@@ -8,7 +8,7 @@ Make server work
     - [x] When in deck mode
  - [x] Write code for sending response messages
  - [x] Write code for dealing a card
- - [ ] Add scoring into receiving a card
+ - [x] Add scoring into receiving a card
  - [x] Sort out ending game code
     - [x] Check if player has scored extra
     - [x] Check if next player has run out of cards
@@ -23,7 +23,7 @@ Make client work
     - [x] Matching from draw, playing (dp)
     - [x] Matching from draw, not playing? (dn)
     - [x] You score, continue? (sp)
-    - [ ] They score, continue? (sn)
+    - [x] They score, continue? (sn)
     - [ ] Game finished! (gf)
     - [x] Menu (m)
   - [x] Write code for updating game when moves received from the server
@@ -32,7 +32,7 @@ Make client work
   - [x] Write code for receiving dealt card
   - [x] Write code for displaying scored cards
   - [ ] Sort out ending game code
-     - [ ] Add simple gamestate for scoring and opponent scoring
+     - [x] Add simple gamestate for scoring and opponent scoring
      - [ ] Add simple gamestate for wins, loses and draws
      - [x] Separate game-updates so can be called without full data
      - [ ] Return to previous state and process deck flip if required
