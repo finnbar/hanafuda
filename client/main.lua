@@ -83,6 +83,12 @@ function love.textinput(t)
   end
 end
 
+function love.mousemoved(x, y, dx, dy, istouch)
+  if gamestate.mousemoved then
+    gamestate = gamestate.mousemoved(x, y, dx, dy, istouch)
+  end
+end
+
 function updateCard(cardObject, dt)
   -- Apply tween, not sure about this yet.
   for i,j in pairs(cardObject.tweens) do

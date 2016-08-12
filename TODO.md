@@ -51,7 +51,7 @@ Other stuff
  - [ ] Allow playing multiple games as part of a longer match
  - [ ] Split server into different files because it is long
  - [x] Remove arrows from cards when in deck flip mode
- - [ ] Change the overlay for scoring to black on white or white on black
+ - [x] Change the overlay for scoring to black on white or white on black
  - [x] Move the hand cards along when one is played
  - [ ] Say whose go it is.
  - [ ] Get a font that draws question marks, full stops and zeros.
