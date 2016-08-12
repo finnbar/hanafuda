@@ -1,7 +1,7 @@
 # hanafuda
 Play Koi-Koi with multiple people!
 
-It kind of works, although scoring doesn't happen yet, sad.
+It actually works! Multipliers don't work yet, but apart from that you can play it and everything.
 
 ## Running the program
 
@@ -43,6 +43,6 @@ This is mostly for my own benefit, but I'll briefly list the files used.
 
 #### Both
 * **cards-define.lua**: Defines all cards, their values, months and images.
-* **cards-score.lua**: Currently not used. It takes a set of cards collected and scores them according to the rules of Koi-Koi.
+* **cards-score.lua**: It takes a set of cards collected and scores them according to the rules of Koi-Koi.
 * **cards-tests.lua**: Some tests for whether the card scoring actually works.
 * **useful.lua**: It has some useful functions for doing stuff like shuffling a deck, copying a table or checking for equality on tables.

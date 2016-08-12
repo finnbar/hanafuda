@@ -46,12 +46,17 @@ Other stuff
  - [x] Make the empty card a bit less horrible and ideally transparent in centre
  - [x] Set selected card to nil when game update is received
  - [x] Move all cards in hand along or move arrows to above cards or both
- - [ ] Implement multipliers!
+ - [ ] Implement multipliers.
  - [ ] Allow people to be randomly matched with opponents
  - [ ] Allow playing multiple games as part of a longer match
- - [ ] Split server into different files because it is getting long
+ - [ ] Split server into different files because it is long
  - [ ] Remove arrows from cards when in deck flip mode
+ - [ ] Change the overlay for scoring to black on white or white on black
+ - [ ] Move the hand cards along when one is played
+ - [ ] Say whose go it is.
+ - [ ] Get a font that draws question marks, full stops and zeros.
  - [x] Fix issue with one player connected and another not connected (waiting stage?)
+ - [ ] Add combinations to the scoring message
  - [x] Change tween implementation to use dictionary-tables instead of list-tables
 
 Weird bugs
