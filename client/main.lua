@@ -1,6 +1,6 @@
 package.path = package.path .. ";../both/?.lua"
 
-requires = {"cards-define","cards-score","useful", "card-coordinates", "card-draw", "game-setup", "game-updates", "gameDeckPlay", "gameDeckWait", "gameHandPlay", "gameHandWait", "gameOver", "menu", "theyScore", "tween", "waiting", "youScore"}
+requires = {"cards-define","useful", "card-coordinates", "card-draw", "game-setup", "game-updates", "gameDeckPlay", "gameDeckWait", "gameHandPlay", "gameHandWait", "gameOver", "menu", "theyScore", "tween", "waiting", "youScore"}
 for i,j in pairs(requires) do
   require(j)
 end
@@ -17,7 +17,6 @@ largefont = love.graphics.newFont(japaneseStyleFile, 80)
 midfont = love.graphics.newFont(japaneseStyleFile, 50)
 smallfont = love.graphics.newFont(japaneseStyleFile,30)
 tinyfont = love.graphics.newFont(japaneseStyleFile, 20)
-tempfont = love.graphics.newFont(30)
 
 local gamestate = menu
 errormsg = ""

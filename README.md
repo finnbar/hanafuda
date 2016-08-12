@@ -40,9 +40,11 @@ This is mostly for my own benefit, but I'll briefly list the files used.
 
 #### Server
 * **server.lua**: It controls the server and gets it to send and receive messages.
+* **cards-score.lua**: It takes a set of cards collected and scores them according to the rules of Koi-Koi.
 
 #### Both
 * **cards-define.lua**: Defines all cards, their values, months and images.
-* **cards-score.lua**: It takes a set of cards collected and scores them according to the rules of Koi-Koi.
-* **cards-tests.lua**: Some tests for whether the card scoring actually works.
 * **useful.lua**: It has some useful functions for doing stuff like shuffling a deck, copying a table or checking for equality on tables.
+
+#### Tests
+* **cards-tests.lua**: Some tests for whether the card scoring actually works.

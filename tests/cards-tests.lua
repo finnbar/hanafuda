@@ -1,5 +1,8 @@
 -- cards-tests, which has tests in it.
 
+-- allow it to require the scoring code, as that's useful
+package.path = package.path .. ";../server/?.lua"
+
 require "useful"
 require "cards-define"
 require "cards-score"
