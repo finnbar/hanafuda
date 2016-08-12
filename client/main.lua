@@ -9,14 +9,16 @@ utf8 = require("utf8")
 
 local address, port = "localhost", 12345
 
-japonesaFile = "assets/intellecta-design_japonesa/Japonesa.ttf"
-japaneseStyleFile = "assets/jonathan-s-harris_japanese-style/Japanese Style.ttf"
+local japonesaFile = "assets/intellecta-design_japonesa/Japonesa.ttf"
+local japaneseStyleFile = "assets/jonathan-s-harris_japanese-style/Japanese Style.ttf"
+local kaorigelFile = "assets/shara-weber_kaorigel/KaoriGel.ttf"
+local fontFile = kaorigelFile
 
 bg = love.graphics.newImage("assets/images/ukiyoebackground.jpg")
-largefont = love.graphics.newFont(japaneseStyleFile, 80)
-midfont = love.graphics.newFont(japaneseStyleFile, 50)
-smallfont = love.graphics.newFont(japaneseStyleFile,30)
-tinyfont = love.graphics.newFont(japaneseStyleFile, 20)
+largefont = love.graphics.newFont(fontFile, 80)
+midfont = love.graphics.newFont(fontFile, 50)
+smallfont = love.graphics.newFont(fontFile,30)
+tinyfont = love.graphics.newFont(fontFile, 20)
 
 local gamestate = menu
 errormsg = ""
