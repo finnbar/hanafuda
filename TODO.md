@@ -54,7 +54,7 @@ Other stuff
  - [x] Change the overlay for scoring to black on white or white on black
  - [x] Move the hand cards along when one is played
  - [ ] Say whose go it is.
- - [ ] Get a font that draws question marks, full stops and zeros.
+ - [x] Get a font that draws question marks, full stops and zeros.
  - [x] Fix issue with one player connected and another not connected (waiting stage?)
  - [ ] Add combinations to the scoring message
  - [x] Change tween implementation to use dictionary-tables instead of list-tables
