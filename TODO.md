@@ -22,7 +22,7 @@ Make client work
     - [x] Matching from hand, not playing (hn)
     - [x] Matching from draw, playing (dp)
     - [x] Matching from draw, not playing? (dn)
-    - [ ] You score, continue? (sp)
+    - [x] You score, continue? (sp)
     - [ ] They score, continue? (sn)
     - [ ] Game finished! (gf)
     - [x] Menu (m)

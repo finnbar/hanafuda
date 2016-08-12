@@ -12,6 +12,9 @@ local address, port = "localhost", 12345
 bg = love.graphics.newImage("assets/images/ukiyoebackground.jpg")
 largefont = love.graphics.newFont("assets/intellecta-design_japonesa/Japonesa.ttf",80)
 midfont = love.graphics.newFont("assets/intellecta-design_japonesa/Japonesa.ttf",50)
+smallfont = love.graphics.newFont("assets/intellecta-design_japonesa/Japonesa.ttf",30)
+tinyfont = love.graphics.newFont("assets/intellecta-design_japonesa/Japonesa.ttf", 20)
+tempfont = love.graphics.newFont(30)
 
 local gamestate = menu
 errormsg = ""
