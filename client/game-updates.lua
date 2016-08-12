@@ -62,10 +62,11 @@ function processYourHandMatch(match)
     removeFromPlayAreaLocations(playAreaToMove)
 
     moveBothToScorePile(handToMove, playAreaToMove, newx1, newy1, newx2, newy2, 0.25, 0.25)
-
-    removeCanBeMatched() -- unmatch all, so no triangles
-    moveHandAlong() -- move everything along to make up for removed card
   end
+
+  -- clear up and move along everything whatever match type
+  removeCanBeMatched() -- unmatch all, so no triangles
+  moveHandAlong() -- move everything along to make up for removed card
 end
 
 function processFlip(newCard)
