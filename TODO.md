@@ -15,16 +15,17 @@ Make server work
     - [x] Send out Koi-Koi messages
     - [x] Receive Koi-Koi response
     - [x] Send out game over messages
+    - [ ] If continue is chosen but no cards left, send draw message
 
 Make client work
- - [ ] Different states for the client (split into files):
+ - [x] Different states for the client (split into files):
     - [x] Matching from hand, playing (hp)
     - [x] Matching from hand, not playing (hn)
     - [x] Matching from draw, playing (dp)
     - [x] Matching from draw, not playing? (dn)
     - [x] You score, continue? (sp)
     - [x] They score, continue? (sn)
-    - [ ] Game finished! (gf)
+    - [x] Game finished! (gf)
     - [x] Menu (m)
   - [x] Write code for updating game when moves received from the server
   - [x] Move the cards after they have arrived
@@ -33,9 +34,10 @@ Make client work
   - [x] Write code for displaying scored cards
   - [ ] Sort out ending game code
      - [x] Add simple gamestate for scoring and opponent scoring
-     - [ ] Add simple gamestate for wins, loses and draws
+     - [x] Add simple gamestate for wins, loses and draws
      - [x] Separate game-updates so can be called without full data
      - [x] Return to previous state and process deck flip if required
+     - [ ] Process draw / end game requests when playing game
 
 Other stuff
  - [x] Get it to shuffle cards *differently* each time
