@@ -9,10 +9,7 @@ utf8 = require("utf8")
 
 local address, port = "localhost", 12345
 
-local japonesaFile = "assets/intellecta-design_japonesa/Japonesa.ttf"
-local japaneseStyleFile = "assets/jonathan-s-harris_japanese-style/Japanese Style.ttf"
-local kaorigelFile = "assets/shara-weber_kaorigel/KaoriGel.ttf"
-local fontFile = kaorigelFile
+local fontFile = "assets/shara-weber_kaorigel/KaoriGel.ttf"
 
 bg = love.graphics.newImage("assets/images/ukiyoebackground.jpg")
 largefont = love.graphics.newFont(fontFile, 80)
