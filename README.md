@@ -1,7 +1,7 @@
 # hanafuda
 Play Koi-Koi with multiple people!
 
-It actually works! Multipliers don't work yet, but apart from that you can play it and everything.
+It actually works!
 
 ## Running the program
 
@@ -22,6 +22,7 @@ This is mostly for my own benefit, but I'll briefly list the files used.
 #### Client
 * **card-coordinates.lua**: Contains code for deciding coordinates of cards (e.g. for playArea)
 * **card-draw.lua**: Contains code for drawing cards used in all gamestates.
+* **card-tween-updates**: Contains functions for updating all cards and checking if any of the cards are still moving.
 * **conf.lua**: Sets up important stuff like window size. It is called by LOVE at the beginning.
 * **game-setup.lua**: Contains functions for receiving game data from server and initiating the game on the client.
 * **game-updates**: Contains code for receiving game updates from server in any of the four game modes.

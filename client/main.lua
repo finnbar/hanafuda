@@ -1,6 +1,6 @@
 package.path = package.path .. ";../both/?.lua"
 
-requires = {"cards-define","useful", "card-coordinates", "card-draw", "game-setup", "game-updates", "game-deck-play", "game-deck-wait", "game-hand-play", "game-hand-wait", "gameover", "menu", "they-score", "tween", "waiting", "you-score"}
+requires = {"cards-define","useful", "card-coordinates", "card-draw", "card-tween-updates", "game-setup", "game-updates", "game-deck-play", "game-deck-wait", "game-hand-play", "game-hand-wait", "gameover", "menu", "they-score", "tween", "waiting", "you-score"}
 for i,j in pairs(requires) do
   require(j)
 end
@@ -87,40 +87,6 @@ end
 function love.mousemoved(x, y, dx, dy, istouch)
   if gamestate.mousemoved then
     gamestate = gamestate.mousemoved(x, y, dx, dy, istouch)
-  end
-end
-
-function updateCard(cardObject, dt)
-  -- Apply tween, not sure about this yet.
-  for i,j in pairs(cardObject.tweens) do
-    cardObject.tweens[i] = updateTweens(j, dt)
-    local newval = valueTween(cardObject.tweens[i])
-    if newval ~= nil then
-      cardObject[i] = newval
-    end
-  end
-  return cardObject
-end
-
-function updateAllCards(dt)
-  for i,j in pairs(yourScore) do
-    updateCard(j, dt)
-  end
-
-  for i,j in pairs(theirScore) do
-    updateCard(j, dt)
-  end
-
-  for i,j in pairs(playArea) do
-    updateCard(j, dt)
-  end
-
-  for i,j in pairs(hand) do
-    updateCard(j, dt)
-  end
-
-  if deckFlip then
-    updateCard(deckFlip, dt)
   end
 end
 

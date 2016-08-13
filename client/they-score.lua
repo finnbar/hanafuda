@@ -1,8 +1,22 @@
 theyScore = {}
 
+local displayOverlay = false
+
 function theyScore.draw()
   drawCards(false)
-  drawOverlay()
+  if displayOverlay then
+    drawOverlay()
+  end
+  return theyScore
+end
+
+function theyScore.update(dt)
+  if not displayOverlay then
+    updateAllCards(dt)
+    if not isAnyMoving() then
+      displayOverlay = true
+    end
+  end
   return theyScore
 end
 
@@ -11,13 +25,16 @@ function theyScore.acceptMessage(data, msg)
     -- continue!
     local newCard = string.match(data, "%?(.*)%?")
     if #newCard == 0 then
+      displayOverlay = false
       return gameHandPlay
     else
+      displayOverlay = false
       processFlip(newCard)
       return gameDeckWait
     end
   elseif data:sub(1,1) == "<" then
     -- game over
+    displayOverlay = false
     processGameOver(data)
     return gameOver
   end

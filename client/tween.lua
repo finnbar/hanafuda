@@ -39,3 +39,7 @@ function valueTween(t)
     return t.finalNum
   end
 end
+
+function isTweenFinished(t)
+  return #t.transitions == 0
+end

@@ -3,9 +3,23 @@ youScore = {}
 local continueButton = {x = 380, y = 390, width = 100, height = 30, colour = {51, 204, 255}, text = "Continue"}
 local stopButton = {x = 500, y = 390, width = 100, height = 30, colour = {51, 204, 255}, text = "Stop"}
 
+local displayOverlay = false
+
 function youScore.draw()
   drawCards(false)
-  drawMenu()
+  if displayOverlay then
+    drawMenu()
+  end
+  return youScore
+end
+
+function youScore.update(dt)
+  if not displayOverlay then
+    updateAllCards(dt)
+    if not isAnyMoving() then
+      displayOverlay = true
+    end
+  end
   return youScore
 end
 
@@ -28,13 +42,16 @@ function youScore.acceptMessage(data, msg)
     -- continue!
     local newCard = string.match(data, "%?(.*)%?")
     if #newCard == 0 then
+      displayOverlay = false -- for next time
       return gameHandWait
     else
+      displayOverlay = false -- for next time
       processFlip(newCard)
       return gameDeckPlay
     end
   elseif data:sub(1,1) == "<" then
     -- game over
+    displayOverlay = false
     processGameOver(data)
     return gameOver
   end
