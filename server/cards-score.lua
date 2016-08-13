@@ -24,6 +24,8 @@ function scoreBig(bigs)
     end
   elseif #bigs == 5 then
     return {15, "Gokō"}
+  else
+    return {0, ""}
   end
 end
 
@@ -194,5 +196,18 @@ function checkIfScores(cards)
     end
     previousScore = copy(yaku)
     return {total, yaku}
+  end
+end
+
+function numericalScore(cards)
+  local yaku = scoreCards(cards)
+  local total = 0
+  for i=1,#yaku do
+    total = total + yaku[i][1]
+  end
+  if total >= 7 then
+    return total * 2
+  else
+    return total
   end
 end

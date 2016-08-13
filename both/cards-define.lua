@@ -9,7 +9,7 @@ function importCards(client)
     table.insert(cards,{})
     for j=1,4 do
       table.insert(cards[i],{})
-      cards[i][j] = {image = importImage(client, i, j), value = 1, month = i, number = j, charVal = string.char(((i-1)*4)+j+64), x = 0, y = 0, size = 1, tweens = {x = {}, y = {}, size = {}}, canBeMatched = false}
+      cards[i][j] = {image = importImage(client, i, j), value = 1, month = i, number = j, charVal = string.char(((i-1)*4)+j+64), x = 0, y = 0, size = 1, tweens = {}, canBeMatched = false}
     end
   end
   -- Special case, dammit November

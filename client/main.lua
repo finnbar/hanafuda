@@ -1,4 +1,6 @@
-requires = {"cards-define","cards-score","useful","game","menu","tween"}
+package.path = package.path .. ";../both/?.lua"
+
+requires = {"cards-define","useful", "card-coordinates", "card-draw", "card-tween-updates", "game-setup", "game-updates", "game-deck-play", "game-deck-wait", "game-hand-play", "game-hand-wait", "gameover", "menu", "they-score", "tween", "waiting", "you-score"}
 for i,j in pairs(requires) do
   require(j)
 end
@@ -7,14 +9,29 @@ utf8 = require("utf8")
 
 local address, port = "localhost", 12345
 
+local fontFile = "assets/shara-weber_kaorigel/KaoriGel.ttf"
+
 bg = love.graphics.newImage("assets/images/ukiyoebackground.jpg")
-largefont = love.graphics.newFont("assets/intellecta-design_japonesa/Japonesa.ttf",80)
-midfont = love.graphics.newFont("assets/intellecta-design_japonesa/Japonesa.ttf",50)
+largefont = love.graphics.newFont(fontFile, 80)
+midfont = love.graphics.newFont(fontFile, 50)
+smallfont = love.graphics.newFont(fontFile,30)
+tinyfont = love.graphics.newFont(fontFile, 20)
 
 local gamestate = menu
 errormsg = ""
 mode = 1
 cards = {}
+
+-- Game variables
+hand = {}
+selectedCard = nil
+playArea = {}
+playAreaLocations = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}}
+opposingCards = 8
+deckFlip = nil
+yourScore = {}
+theirScore = {}
+totalScore = 0
 
 function love.load()
   cards = importCards(true)
@@ -25,6 +42,7 @@ function love.load()
 end
 
 function love.update(dt)
+  local data, msg
   repeat
     data, msg = udp:receive()
     if data then
@@ -66,23 +84,14 @@ function love.textinput(t)
   end
 end
 
-function pasteCard(cardObject)
-  love.graphics.draw(cardObject.image, cardObject.x, cardObject.y, 0, cardObject.size, cardObject.size)
-end
-
-function updateCard(cardObject)
-  -- Apply tween, not sure about this yet.
-  for i,j in pairs(cardObject.tweens) do
-    cardObject.tweens[i] = updateTweens(j)
-    local newval = valueTween(cardObject.tweens[i])
-    if newval ~= nil then
-      cardObject[i] = newval
-    end
+function love.mousemoved(x, y, dx, dy, istouch)
+  if gamestate.mousemoved then
+    gamestate = gamestate.mousemoved(x, y, dx, dy, istouch)
   end
-  return cardObject
 end
 
 function pointerInCard(cardObject, px, py)
+  local endx, endy
   endx = (cardObject.image:getWidth()*cardObject.size) + cardObject.x
   endy = (cardObject.image:getHeight()*cardObject.size) + cardObject.y
   if px <= endx and px >= cardObject.x and py <= endy and py >= cardObject.y then return true else return false end

@@ -30,3 +30,23 @@ function randSort(t) -- THANKS THE INTERNET! ("no problem" - The Internet)
 	end
 	return t
 end
+
+function searchByField(items, field, value)
+  for index,item in pairs(items) do
+    if item[field] == value then
+      return item
+    end
+  end
+end
+
+function moveByField(startTable, endTable, field, value)
+  local toMove
+  for index,item in pairs(startTable) do
+    if item[field] == value then
+      toMove = index
+    end
+  end
+  if toMove then
+    table.insert(endTable, table.remove(startTable, toMove))
+  end
+end
