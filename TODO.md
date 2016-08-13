@@ -58,7 +58,7 @@ Other stuff
  - [x] Fix issue with one player connected and another not connected (waiting stage?)
  - [ ] Add combinations to the scoring message
  - [x] Change tween implementation to use dictionary-tables instead of list-tables
- - [ ] Make moving thing glide on top of the deck instead of under it
+ - [x] Make moving thing glide on top of the deck instead of under it
  - [x] Make sliding occur before win message appears
 
 Weird bugs
