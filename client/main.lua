@@ -1,13 +1,13 @@
 package.path = package.path .. ";../both/?.lua"
 
-requires = {"cards-define","useful", "card-coordinates", "card-draw", "card-tween-updates", "game-setup", "game-updates", "game-deck-play", "game-deck-wait", "game-hand-play", "game-hand-wait", "gameover", "menu", "they-score", "tween", "waiting", "you-score"}
+requires = {"cards-define","useful", "card-coordinates", "card-draw", "card-tween-updates", "game-setup", "game-updates", "game-deck-play", "game-deck-wait", "game-hand-play", "game-hand-wait", "gameOver", "menu", "they-score", "tween", "waiting", "you-score"}
 for i,j in pairs(requires) do
   require(j)
 end
 local socket = require "socket"
 utf8 = require("utf8")
 
-local address, port = "localhost", 12345
+local address, port = "178.62.89.207", 12345
 
 local fontFile = "assets/shara-weber_kaorigel/KaoriGel.ttf"
 
