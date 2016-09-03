@@ -11,14 +11,11 @@ function setUpGame(data, firstPlayer)
   end
   local pnums = {string.byte(charplay,1,#charplay)}
   for i=1,#pnums do
-    pnums[i] = pnums[i] - 64
-    local x,y = math.ceil(pnums[i]/4),(pnums[i]%4)
-    if y==0 then y=4 end
+    local x,y = getCardFromChar(pnums[i])
     table.insert(playArea, cards[x][y])
     playArea[i].row, playArea[i].col, playArea[i].x, playArea[i].y = getPlayAreaCoords(true)
   end
-  local r,c
-  r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
+  _, _, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
 
   if firstPlayer then
     setCanBeMatched()

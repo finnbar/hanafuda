@@ -4,7 +4,6 @@ local emptyImg = love.graphics.newImage("assets/images/empty.png")
 emptyCard = {image = emptyImg, x = 0, y = 0, size = 1}
 
 function drawCards(yourGo)
-
   -- Draw the deck
   -- Do this first so anything else is on top
   love.graphics.setColor(255,255,255,255)

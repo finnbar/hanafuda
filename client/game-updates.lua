@@ -44,6 +44,19 @@ function updateTheirDeckScore(data)
   processTheirDeckMatch(match)
 end
 
+function processFlip(newCard)
+  local xc,yc = getCardFromChar(newCard:byte())
+  deckFlip = cards[xc][yc]
+  deckFlip.x, deckFlip.y = 70, 265
+
+  selectedCard = deckFlip
+
+  -- Move empty card into the next position
+  local r,c
+  r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
+end
+
+
 function processYourHandMatch(match)
   -- Update all the lists and data
   if #match == 1 then
@@ -67,18 +80,6 @@ function processYourHandMatch(match)
   -- clear up and move along everything whatever match type
   removeCanBeMatched() -- unmatch all, so no triangles
   moveHandAlong() -- move everything along to make up for removed card
-end
-
-function processFlip(newCard)
-  local xc,yc = getCardFromChar(newCard:byte())
-  deckFlip = cards[xc][yc]
-  deckFlip.x, deckFlip.y = 70, 265
-
-  selectedCard = deckFlip
-
-  -- Move empty card into the next position
-  local r,c
-  r, c, emptyCard.x, emptyCard.y = getPlayAreaCoords(false)
 end
 
 function processTheirHandMatch(match)
@@ -176,15 +177,13 @@ function removeCanBeMatched()
 end
 
 function setCanBeMatched()
-  for i, j in pairs(hand) do
-    hand[i] = updateCard(j)
-    local willBeMatched = false
-    for k, l in pairs(playArea) do
+  for _, j in pairs(hand) do
+    j.canBeMatched = false
+    for _, l in pairs(playArea) do
       if j.month == l.month then
-        willBeMatched = true
+        j.canBeMatched = true
       end
     end
-    hand[i].canBeMatched = willBeMatched
   end
 end
 
