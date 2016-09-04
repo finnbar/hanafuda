@@ -23,7 +23,8 @@ Other stuff
  - [ ] Either allow non alphabetic characters in username or stop it crashing the server
  - [ ] Prevent against the server being crashed by bad messages generally
  - [ ] Add debug output to the server
- - [ ] Add something to check message is received.
+ - [x] Add something to check message is received.
+ - [ ] Add choice of whether it is connecting to proper server or local to client
 
 Allow multiple games as part of a longer matched
  - [ ] Allow match type to be chosen at the beginning by player 1

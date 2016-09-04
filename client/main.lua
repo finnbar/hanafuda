@@ -7,7 +7,14 @@ end
 local socket = require "socket"
 utf8 = require("utf8")
 
-local address, port = "178.62.89.207", 12345
+local usingRealServer = true -- set to true for actually connecting and playing with others
+
+local address, port
+if usingRealServer then
+  address, port = "178.62.89.207", 12345
+else
+  address, port = "localhost", 12345
+end
 
 local fontFile = "assets/shara-weber_kaorigel/KaoriGel.ttf"
 
