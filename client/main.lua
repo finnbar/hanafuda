@@ -33,6 +33,8 @@ yourScore = {}
 theirScore = {}
 totalScore = 0
 
+local lastMsg = ""
+
 function love.load()
   cards = importCards(true)
   udp = socket.udp()
@@ -46,9 +48,12 @@ function love.update(dt)
   repeat
     data, msg = udp:receive()
     if data then
-      if gamestate.acceptMessage then
-        gamestate = gamestate.acceptMessage(data, msg)
+      local resends, newData = string.match(data, "(%**)(.*)")
+      if (resends == "" or newData ~= lastMsg) and gamestate.acceptMessage then
+        gamestate = gamestate.acceptMessage(newData, msg)
       end
+      lastMsg = newData
+      udp:send("OK")
     elseif msg ~= 'timeout' then
       error("Network error: "..tostring(msg))
     end

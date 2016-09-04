@@ -11,6 +11,7 @@ Other stuff
  - [ ] Refactor some code so it is shorter
     - [ ] Check if all local variables are actually local
     - [ ] The client update game functions seem to contain lots of repetition
+    - [x] Repeating a lot in update card tweens
  - [ ] Deal with a player quitting without leaving the other player confused
  - [ ] Delete games and matches from the server once they are over
  - [ ] Allow a user to have an account which they can log into
@@ -22,6 +23,7 @@ Other stuff
  - [ ] Either allow non alphabetic characters in username or stop it crashing the server
  - [ ] Prevent against the server being crashed by bad messages generally
  - [ ] Add debug output to the server
+ - [ ] Add something to check message is received.
 
 Allow multiple games as part of a longer matched
  - [ ] Allow match type to be chosen at the beginning by player 1
