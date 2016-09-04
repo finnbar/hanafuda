@@ -24,7 +24,7 @@ Other stuff
  - [ ] Prevent against the server being crashed by bad messages generally
  - [ ] Add debug output to the server
  - [x] Add something to check message is received.
- - [ ] Add choice of whether it is connecting to proper server or local to client
+ - [x] Add choice of whether it is connecting to proper server or local to client
 
 Allow multiple games as part of a longer matched
  - [ ] Allow match type to be chosen at the beginning by player 1

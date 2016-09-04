@@ -26,7 +26,7 @@ debug = true
 function sendUDP(data,msg_or_ip,port_or_nil)
   print("Out > "..data)
   udp:sendto(data,msg_or_ip,port_or_nil)
-  table.insert(toValidate, {data = data, ip = msg_or_ip, port_or_nil = port_or_nil, timeSent = os.clock()})
+  table.insert(toValidate, {data = data, ip = msg_or_ip, port_or_nil = port_or_nil, timeSent = socket.gettime()})
 end
 
 function sendFailureMessage(msg_or_ip, port_or_nil)
@@ -79,7 +79,7 @@ end
 function checkForLostMsgs()
   for i = #toValidate,1,-1 do -- backwards to make removing easier
     local j = toValidate[i]
-    if os.clock() - j.timeSent > 2 then
+    if socket.gettime() - j.timeSent > 2 then
       sendUDP("*"..j.data, j.ip, j.port_or_nil)
       table.remove(toValidate, i)
     end
