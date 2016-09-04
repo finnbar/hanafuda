@@ -7,7 +7,7 @@ end
 local socket = require "socket"
 utf8 = require("utf8")
 
-local address, port = "localhost", 12345
+local address, port = "178.62.89.207", 12345
 
 local fontFile = "assets/shara-weber_kaorigel/KaoriGel.ttf"
 

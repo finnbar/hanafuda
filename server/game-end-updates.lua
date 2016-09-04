@@ -48,6 +48,9 @@ function sendGameOver(game, winner)
   sendUDP(player1_msg, game.players[1].msg_or_ip, game.players[1].port_or_nil)
   sendUDP(player2_msg, game.players[2].msg_or_ip, game.players[2].port_or_nil)
 
+  games[game.roomname] = nil
+  users[game.players[1].username], users[game.players[2].username] = nil, nil
+
 end
 
 function koiKoiUpdate(data, msg_or_ip, port_or_nil)
