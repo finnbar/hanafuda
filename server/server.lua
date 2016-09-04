@@ -49,8 +49,8 @@ function main()
       -- & => sends to waiting area
       -- ? => Koi-Koi
       -- < => game ending.
-      if data == "OK" then
-        removeValidatedMsg(msg_or_ip)
+      if string.sub(data, 1, 2) == "OK" then
+        removeValidatedMsg(msg_or_ip, data)
       elseif string.sub(data,1,1) == "#" then
         createNewGame(data, msg_or_ip, port_or_nil)
       elseif string.sub(data,1,1) == ">" then
@@ -66,12 +66,12 @@ function main()
   end
 end
 
-function removeValidatedMsg(msg_or_ip)
+function removeValidatedMsg(msg_or_ip, data)
   for i,j in ipairs(toValidate) do
-    if j.ip == msg_or_ip then
+    if j.ip == msg_or_ip and "OK "..j.data == data then
       table.remove(toValidate, i)
+      return true
     end
-    return true
   end
   return false
 end

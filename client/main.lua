@@ -60,7 +60,7 @@ function love.update(dt)
         gamestate = gamestate.acceptMessage(newData, msg)
       end
       lastMsg = newData
-      udp:send("OK")
+      udp:send("OK "..data)
     elseif msg ~= 'timeout' then
       error("Network error: "..tostring(msg))
     end
