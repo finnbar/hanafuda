@@ -35,12 +35,9 @@ function createNewGame(data, msg_or_ip, port_or_nil)
   local newroomname, newusername = string.match(data,"^#(%w+)@(%w+)$")
   assert(newroomname and newusername)
   local istaken = false
-  for i,j in pairs(users) do
-    if i == newusername then
-      sendUDP("@", msg_or_ip, port_or_nil)
-      istaken = true
-      break
-    end
+  if users[newusername] then
+    sendUDP("@", msg_or_ip, port_or_nil)
+    istaken = true
   end
   if not istaken then
     for i, j in pairs(games) do
@@ -52,6 +49,7 @@ function createNewGame(data, msg_or_ip, port_or_nil)
           -- Tell player 2 they were successful
           sendStartingGameState(false, newroomname, msg_or_ip, port_or_nil)
           istaken = true
+          users[newusername] = newroomname
         else
           sendUDP("#", msg_or_ip, port_or_nil)
           istaken = true

@@ -7,7 +7,14 @@ end
 local socket = require "socket"
 utf8 = require("utf8")
 
-local address, port = "178.62.89.207", 12345
+local usingRealServer = true -- set to true for actually connecting and playing with others
+
+local address, port
+if usingRealServer then
+  address, port = "178.62.89.207", 12345
+else
+  address, port = "localhost", 12345
+end
 
 local fontFile = "assets/shara-weber_kaorigel/KaoriGel.ttf"
 
@@ -33,6 +40,8 @@ yourScore = {}
 theirScore = {}
 totalScore = 0
 
+local lastMsg = ""
+
 function love.load()
   cards = importCards(true)
   udp = socket.udp()
@@ -46,9 +55,12 @@ function love.update(dt)
   repeat
     data, msg = udp:receive()
     if data then
-      if gamestate.acceptMessage then
-        gamestate = gamestate.acceptMessage(data, msg)
+      local resends, newData = string.match(data, "(%**)(.*)")
+      if (resends == "" or newData ~= lastMsg) and gamestate.acceptMessage then
+        gamestate = gamestate.acceptMessage(newData, msg)
       end
+      lastMsg = newData
+      udp:send("OK "..data)
     elseif msg ~= 'timeout' then
       error("Network error: "..tostring(msg))
     end
