@@ -25,6 +25,7 @@ Other stuff
  - [ ] Add debug output to the server
  - [x] Add something to check message is received.
  - [x] Add choice of whether it is connecting to proper server or local to client
+ - [ ] Add checking if connection has been lost and not sending more messages if that seems to be the case
 
 Allow multiple games as part of a longer matched
  - [ ] Allow match type to be chosen at the beginning by player 1

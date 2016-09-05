@@ -79,7 +79,7 @@ end
 function checkForLostMsgs()
   for i = #toValidate,1,-1 do -- backwards to make removing easier
     local j = toValidate[i]
-    if socket.gettime() - j.timeSent > 2 then
+    if socket.gettime() - j.timeSent > 0.75 then
       sendUDP("*"..j.data, j.ip, j.port_or_nil)
       table.remove(toValidate, i)
     end
