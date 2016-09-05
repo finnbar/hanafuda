@@ -13,7 +13,9 @@ It should then all magically work.
 ### The Client
 
 You will need LOVE installed to run the client.
-When you are in the client directory, type into the command line: love . and it should all magically work. In particular, you should get a window appear and ask you for your username.
+When you are in the base directory (NOT the client directory), type into the command line: love . and it should all magically work. In particular, you should get a window appear and ask you for your username.
+
+Alternatively you can drag the whole folder on to the love icon and hopefully it will work.
 
 ## The Code
 
