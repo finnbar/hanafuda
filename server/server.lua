@@ -26,7 +26,10 @@ debug = true
 function sendUDP(data,msg_or_ip,port_or_nil)
   print("Out > "..data)
   udp:sendto(data,msg_or_ip,port_or_nil)
-  table.insert(toValidate, {data = data, ip = msg_or_ip, port_or_nil = port_or_nil, timeSent = socket.gettime()})
+  local stars = string.match(data, "(%**).*")
+  if stars:len() < 20 then
+    table.insert(toValidate, {data = data, ip = msg_or_ip, port_or_nil = port_or_nil, timeSent = socket.gettime()})
+  end
 end
 
 function sendFailureMessage(msg_or_ip, port_or_nil)
