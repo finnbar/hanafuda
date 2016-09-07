@@ -1,7 +1,7 @@
 local socket = require "socket"
 utf8 = require("utf8")
 
-local usingRealServer = true -- set to true for actually connecting and playing with others
+local usingRealServer = false -- set to true for actually connecting and playing with others
 
 local address, port
 if usingRealServer then
@@ -95,6 +95,12 @@ end
 function love.mousemoved(x, y, dx, dy, istouch)
   if gamestate.mousemoved then
     gamestate = gamestate.mousemoved(x, y, dx, dy, istouch)
+  end
+end
+
+function love.quit()
+  if username and roomname then
+    udp:send("QUIT "..username.." "..roomname)
   end
 end
 
