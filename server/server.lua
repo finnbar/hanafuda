@@ -20,14 +20,19 @@ games = {} -- a list of games tied to their roomname/number.
 users = {} -- a list of users, and the game they're in.
 local toValidate = {}
 
+local lastSent
+
 -- debug mode, for printing more stuff
 debug = true
 
-function sendUDP(data,msg_or_ip,port_or_nil)
+function sendUDP(data,msg_or_ip,port_or_nil, add_to_list)
+  if add_to_list == nil then
+    add_to_list = true
+  end
   print("Out > "..data)
   udp:sendto(data,msg_or_ip,port_or_nil)
   local stars = string.match(data, "(%**).*")
-  if stars:len() < 20 then
+  if stars:len() < 20 and add_to_list then
     table.insert(toValidate, {data = data, ip = msg_or_ip, port_or_nil = port_or_nil, timeSent = socket.gettime()})
   end
 end
@@ -38,6 +43,7 @@ end
 
 function main()
   math.randomseed(os.time()) -- Otherwise we get the same cards whenever server restarts
+  lastSent = socket.gettime()
   while running do
     data, msg_or_ip, port_or_nil = udp:receivefrom()
     if data then
@@ -52,8 +58,10 @@ function main()
       -- & => sends to waiting area
       -- ? => Koi-Koi
       -- < => game ending.
+      -- OK => message received
+      -- STILL HERE => to keep client connected to server
       if string.sub(data, 1, 2) == "OK" then
-        removeValidatedMsg(msg_or_ip, data)
+        removeValidatedMsg(data, msg_or_ip, port_or_nil)
       elseif string.sub(data,1,1) == "#" then
         createNewGame(data, msg_or_ip, port_or_nil)
       elseif string.sub(data,1,1) == ">" then
@@ -65,13 +73,19 @@ function main()
       error("Unknown network error: "..tostring(msg_or_ip))
     end
     checkForLostMsgs()
+    if socket.gettime() - lastSent > 30 then
+      for name,user in pairs(users) do
+        sendUDP("STILL HERE", user.ip, user.port, false)
+      end
+      lastSent = socket.gettime()
+    end
     socket.sleep(0.01)
   end
 end
 
-function removeValidatedMsg(msg_or_ip, data)
+function removeValidatedMsg(data, msg_or_ip, port_or_nil)
   for i,j in ipairs(toValidate) do
-    if j.ip == msg_or_ip and "OK "..j.data == data then
+    if j.ip == msg_or_ip and j.port_or_nil == port_or_nil and "OK "..j.data == data then
       table.remove(toValidate, i)
       return true
     end

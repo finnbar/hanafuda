@@ -49,7 +49,7 @@ function createNewGame(data, msg_or_ip, port_or_nil)
           -- Tell player 2 they were successful
           sendStartingGameState(false, newroomname, msg_or_ip, port_or_nil)
           istaken = true
-          users[newusername] = newroomname
+          users[newusername] = {room = newroomname, ip = msg_or_ip, port = port_or_nil}
         else
           sendUDP("#", msg_or_ip, port_or_nil)
           istaken = true
@@ -76,7 +76,7 @@ function createNewGame(data, msg_or_ip, port_or_nil)
         table.insert(p, table.remove(d,1))
       end
       games[newroomname] = {roomname = newroomname, deck = d, hand1 = h1, hand2 = h2, playArea = p, score1 = {}, score2 = {},  players = {{username = newusername, msg_or_ip = msg_or_ip, port_or_nil = port_or_nil}}, mode="h1", lastScore = {0, 0}, multipliers = {1, 1}}
-      users[newusername] = newroomname
+      users[newusername] = {room = newroomname, ip = msg_or_ip, port = port_or_nil}
       sendUDP("&", msg_or_ip, port_or_nil)
     end
   end

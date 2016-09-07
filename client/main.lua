@@ -1,5 +1,3 @@
-package.path = package.path .. ";../both/?.lua"
-
 local socket = require "socket"
 utf8 = require("utf8")
 
@@ -51,12 +49,14 @@ function love.update(dt)
   repeat
     data, msg = udp:receive()
     if data then
-      local resends, newData = string.match(data, "(%**)(.*)")
-      if (resends == "" or newData ~= lastMsg) and gamestate.acceptMessage then
-        gamestate = gamestate.acceptMessage(newData, msg)
+      if data ~= "STILL HERE" then
+        local resends, newData = string.match(data, "(%**)(.*)")
+        if (resends == "" or newData ~= lastMsg) and gamestate.acceptMessage then
+          gamestate = gamestate.acceptMessage(newData, msg)
+        end
+        lastMsg = newData
+        udp:send("OK "..data)
       end
-      lastMsg = newData
-      udp:send("OK "..data)
     elseif msg ~= 'timeout' then
       error("Network error: "..tostring(msg))
     end
