@@ -33,9 +33,17 @@ function createNewGame(data, msg_or_ip, port_or_nil)
   -- Create a new room.
   -- Here, get the username and roomname from data (#roomname@username), and do the right stuff. Then we win?
   local newroomname, newusername = string.match(data,"^#(%w+)@(%w+)$")
-  assert(newroomname and newusername)
   local istaken = false
-  if users[newusername] then
+  if not (newroomname and newusername) then
+    -- if the message is just not right, send them back to try again
+    if string.match(data, "^#(.*)@(%w+)$") then -- proper username, no room
+      sendUDP("#", msg_or_ip, port_or_nil)
+    else
+      sendUDP("@", msg_or_ip, port_or_nil)
+    end
+    istaken = true
+  end
+  if not istaken and users[newusername] then
     sendUDP("@", msg_or_ip, port_or_nil)
     istaken = true
   end

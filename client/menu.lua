@@ -66,10 +66,10 @@ function menu.acceptMessage(data, msg)
     return waiting
   elseif string.sub(data,1,1) == "@" then
     mode = 1
-    errormsg = "Choose a different username."
+    errormsg = "Username already used or no valid username entered"
   elseif string.sub(data,1,1) == "#" then
     mode = 2
-    errormsg = "Room in use."
+    errormsg = "Room in use or no valid room entered."
   end
   return menu
 end
