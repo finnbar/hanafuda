@@ -25,19 +25,19 @@ local lastSent
 -- debug mode, for printing more stuff
 debug = true
 
-function sendUDP(data,msg_or_ip,port_or_nil, add_to_list)
+function sendUDP(data, user, add_to_list)
   if add_to_list == nil then
     add_to_list = true
   end
   print("Out > "..data)
-  udp:sendto(data,msg_or_ip,port_or_nil)
+  udp:sendto(data, user.ip, user.port)
   if add_to_list then
-    table.insert(toValidate, {data = data, ip = msg_or_ip, port_or_nil = port_or_nil, timeSent = socket.gettime()})
+    table.insert(toValidate, {data = data, user = user, timeSent = socket.gettime()})
   end
 end
 
 function sendFailureMessage(msg_or_ip, port_or_nil)
-  sendUDP("~", msg_or_ip, port_or_nil)
+  sendUDP("~", {ip = msg_or_ip, port = port_or_nil})
 end
 
 function main()
@@ -74,7 +74,7 @@ function main()
     checkForLostMsgs()
     if socket.gettime() - lastSent > 30 then
       for name,user in pairs(users) do
-        sendUDP("STILL HERE", user.ip, user.port, false)
+        sendUDP("STILL HERE", user, false)
       end
       lastSent = socket.gettime()
     end
@@ -84,7 +84,7 @@ end
 
 function removeValidatedMsg(data, msg_or_ip, port_or_nil)
   for i,j in ipairs(toValidate) do
-    if j.ip == msg_or_ip and j.port_or_nil == port_or_nil and "OK "..j.data == data then
+    if j.user.ip == msg_or_ip and j.user.port == port_or_nil and "OK "..j.data == data then
       table.remove(toValidate, i)
       return true
     end
@@ -96,9 +96,9 @@ function checkForLostMsgs()
   for i = #toValidate,1,-1 do -- backwards to make removing easier
     local j = toValidate[i]
     if socket.gettime() - j.timeSent > 0.75 then
-      local stars = string.match(data, "(%**).*")
+      local stars = string.match(j.data, "(%**).*")
       if stars:len() < 20 then
-        sendUDP("*"..j.data, j.ip, j.port_or_nil)
+        sendUDP("*"..j.data, j.user)
       else
         -- remove the user here.
       end

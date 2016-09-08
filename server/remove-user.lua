@@ -1,7 +1,7 @@
 function removeUser(username, message)
   if users[username] then
     local roomName = users[username].room
-    local room = rooms[roomName]
+    local room = games[roomName]
 
     local otherUsername
     if room.players[1] and room.players[1].username ~= username then
@@ -17,7 +17,7 @@ function removeUser(username, message)
     end
 
     -- finally, remove user and room
-    rooms[roomName] = nil
+    games[roomName] = nil
     users[username] = nil
   end
 end

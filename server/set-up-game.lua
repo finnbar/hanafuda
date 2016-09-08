@@ -1,24 +1,27 @@
-function sendStartingGameState(firstPlayer, room, msg_or_ip, port_or_nil)
+function sendStartingGameState(firstPlayer, game)
   -- Format:
   -- !handaschars!playareaaschars!numberofcardsopponenthas!
   -- All cards are one digit long, so the client just gets a string of them.
-  local game = games[room]
   local nhand = 0
   local nopponent = 0
   local handchars = ''
   local playchars = ''
+  local user
+  print(game.players, #game.players)
   if firstPlayer then
     nhand = #game.hand1
     nopponent = #game.hand2
     handchars = handAsChars(game.hand1,nhand)
+    user = game.players[1]
   else
     nhand = #game.hand2
     nopponent = #game.hand1
     handchars = handAsChars(game.hand2,nhand)
+    user = game.players[2]
   end
   nplay = #game.playArea
   playchars = handAsChars(game.playArea, nplay)
-  sendUDP("!"..handchars.."!"..playchars.."!"..nopponent.."!", msg_or_ip, port_or_nil)
+  sendUDP("!"..handchars.."!"..playchars.."!"..nopponent.."!", user)
 end
 
 function handAsChars(cards, number)
@@ -37,29 +40,29 @@ function createNewGame(data, msg_or_ip, port_or_nil)
   if not (newroomname and newusername) then
     -- if the message is just not right, send them back to try again
     if string.match(data, "^#(.*)@(%w+)$") then -- proper username, no room
-      sendUDP("#", msg_or_ip, port_or_nil)
+      sendUDP("#", {ip = msg_or_ip, port = port_or_nil})
     else
-      sendUDP("@", msg_or_ip, port_or_nil)
+      sendUDP("@", {ip = msg_or_ip, port = port_or_nil})
     end
     istaken = true
   end
   if not istaken and users[newusername] then
-    sendUDP("@", msg_or_ip, port_or_nil)
+    sendUDP("@", {ip = msg_or_ip, port = port_or_nil})
     istaken = true
   end
   if not istaken then
     for i, j in pairs(games) do
       if i == newroomname then
         if #(j.players) == 1 then
-          table.insert(games[i].players, {username = newusername, msg_or_ip = msg_or_ip, port_or_nil = port_or_nil})
+          users[newusername] = {username = newusername, room = newroomname, ip = msg_or_ip, port = port_or_nil}
+          table.insert(games[i].players, users[newusername])
           -- Tell player 1 to leave waiting area
-          sendStartingGameState(true, newroomname, games[i].players[1].msg_or_ip, games[i].players[1].port_or_nil)
+          sendStartingGameState(true, games[newroomname])
           -- Tell player 2 they were successful
-          sendStartingGameState(false, newroomname, msg_or_ip, port_or_nil)
+          sendStartingGameState(false, games[newroomname])
           istaken = true
-          users[newusername] = {room = newroomname, ip = msg_or_ip, port = port_or_nil}
         else
-          sendUDP("#", msg_or_ip, port_or_nil)
+          sendUDP("#", {ip = msg_or_ip, port = port_or_nil})
           istaken = true
           break
         end
@@ -83,9 +86,9 @@ function createNewGame(data, msg_or_ip, port_or_nil)
         table.insert(h2, table.remove(d,1))
         table.insert(p, table.remove(d,1))
       end
-      games[newroomname] = {roomname = newroomname, deck = d, hand1 = h1, hand2 = h2, playArea = p, score1 = {}, score2 = {},  players = {{username = newusername, msg_or_ip = msg_or_ip, port_or_nil = port_or_nil}}, mode="h1", lastScore = {0, 0}, multipliers = {1, 1}}
-      users[newusername] = {room = newroomname, ip = msg_or_ip, port = port_or_nil}
-      sendUDP("&", msg_or_ip, port_or_nil)
+      users[newusername] = {username = newusername, room = newroomname, ip = msg_or_ip, port = port_or_nil}
+      games[newroomname] = {roomname = newroomname, deck = d, hand1 = h1, hand2 = h2, playArea = p, score1 = {}, score2 = {},  players = {users[newusername]}, mode="h1", lastScore = {0, 0}, multipliers = {1, 1}}
+      sendUDP("&", users[newusername])
     end
   end
 end
