@@ -1,7 +1,7 @@
 -- server.lua, which runs the server stuff, unsurprisingly.
 package.path = package.path .. ";../both/?.lua" -- get anything from both folder
 
-requires = {"cards-define","useful", "cards-score", "set-up-game", "game-end-updates", "game-updates"}
+requires = {"cards-define","useful", "cards-score", "set-up-game", "game-end-updates", "game-updates", "remove-user"}
 
 for _,j in pairs(requires) do
   require(j)
@@ -31,8 +31,7 @@ function sendUDP(data,msg_or_ip,port_or_nil, add_to_list)
   end
   print("Out > "..data)
   udp:sendto(data,msg_or_ip,port_or_nil)
-  local stars = string.match(data, "(%**).*")
-  if stars:len() < 20 and add_to_list then
+  if add_to_list then
     table.insert(toValidate, {data = data, ip = msg_or_ip, port_or_nil = port_or_nil, timeSent = socket.gettime()})
   end
 end
@@ -97,7 +96,12 @@ function checkForLostMsgs()
   for i = #toValidate,1,-1 do -- backwards to make removing easier
     local j = toValidate[i]
     if socket.gettime() - j.timeSent > 0.75 then
-      sendUDP("*"..j.data, j.ip, j.port_or_nil)
+      local stars = string.match(data, "(%**).*")
+      if stars:len() < 20 then
+        sendUDP("*"..j.data, j.ip, j.port_or_nil)
+      else
+        -- remove the user here.
+      end
       table.remove(toValidate, i)
     end
   end

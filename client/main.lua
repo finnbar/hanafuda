@@ -1,7 +1,7 @@
 local socket = require "socket"
 utf8 = require("utf8")
 
-local usingRealServer = false -- set to true for actually connecting and playing with others
+local usingRealServer = true -- set to true for actually connecting and playing with others
 
 local address, port
 if usingRealServer then
