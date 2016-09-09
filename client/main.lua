@@ -21,23 +21,10 @@ tinyfont = love.graphics.newFont(fontFile, 20)
 local gamestate = menu
 errormsg = ""
 mode = 1
-cards = {}
-
--- Game variables
-hand = {}
-selectedCard = nil
-playArea = {}
-playAreaLocations = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}}
-opposingCards = 8
-deckFlip = nil
-yourScore = {}
-theirScore = {}
-totalScore = 0
 
 local lastMsg = ""
 
 function love.load()
-  cards = importCards(true)
   udp = socket.udp()
   udp:settimeout(0)
   udp:setpeername(address, port)

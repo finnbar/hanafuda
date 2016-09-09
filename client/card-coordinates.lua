@@ -1,5 +1,12 @@
-local yourScoreCount = {small = 0, ribbon = 0, medium = 0, large = 0}
-local theirScoreCount = {small = 0, ribbon = 0, medium = 0, large = 0}
+local yourScoreCount
+local theirScoreCount
+local playAreaLocations
+
+function resetCardCoords()
+  yourScoreCount = {small = 0, ribbon = 0, medium = 0, large = 0}
+  theirScoreCount = {small = 0, ribbon = 0, medium = 0, large = 0}
+  playAreaLocations = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}}
+end
 
 function getPlayAreaCoords(addToLocations)
   for i=1,#playAreaLocations do

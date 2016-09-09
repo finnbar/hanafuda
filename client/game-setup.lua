@@ -2,6 +2,21 @@ function setUpGame(data, firstPlayer)
   -- It's a new game state, which we should unpack.
   -- Format:
   -- !handaschars!playareaaschars!numberofcardsopponenthas!
+
+  -- Reset game variables
+  cards = importCards(true)
+  hand = {}
+  selectedCard = nil
+  playArea = {}
+  opposingCards = 8
+  deckFlip = nil
+  yourScore = {}
+  theirScore = {}
+  totalScore = 0
+
+  -- reset coordinates so things draw right
+  resetCardCoords()
+
   local charhand, charplay, opposingCards = string.match(data, "^!(.+)!(.+)!(%d)!$")
   local hnums = {string.byte(charhand,1,#charhand)}
   for i=1,#hnums do
