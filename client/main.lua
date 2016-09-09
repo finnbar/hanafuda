@@ -61,6 +61,8 @@ end
 
 function love.draw()
   love.graphics.setColor(255,255,255)
+  love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+  love.graphics.setColor(255,255,255, 220)
   love.graphics.draw(bg,0,0,0,love.graphics.getWidth()/1280,love.graphics.getWidth()/1280)
   if gamestate.draw then
     gamestate = gamestate.draw()
