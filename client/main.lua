@@ -42,6 +42,8 @@ function love.update(dt)
         if (resends == "" or newData ~= lastMsg) and gamestate.acceptMessage then
           if (newData == "QUIT") then
             gamestate = theyQuit
+          elseif (newData == "ERROR") then
+            gamestate = somethingWrong
           else
             gamestate = gamestate.acceptMessage(newData, msg)
           end
