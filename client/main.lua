@@ -50,12 +50,16 @@ function love.update(dt)
     data, msg = udp:receive()
     if data then
       if data ~= "STILL HERE" then
+        udp:send("OK "..data)
         local resends, newData = string.match(data, "(%**)(.*)")
         if (resends == "" or newData ~= lastMsg) and gamestate.acceptMessage then
-          gamestate = gamestate.acceptMessage(newData, msg)
+          if (newData == "QUIT") then
+            gamestate = theyQuit
+          else
+            gamestate = gamestate.acceptMessage(newData, msg)
+          end
         end
         lastMsg = newData
-        udp:send("OK "..data)
       end
     elseif msg ~= 'timeout' then
       error("Network error: "..tostring(msg))

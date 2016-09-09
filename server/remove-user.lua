@@ -10,9 +10,9 @@ function removeUser(username, message)
       otherUsername = room.players[2].username
     end
 
-    if otherUserName then
+    if otherUsername then
       local otherUser = users[otherUsername]
-      sendUDP(message, otherUser.ip, otherUser.port)
+      sendUDP(message, otherUser)
       users[otherUsername] = nil
     end
 
@@ -20,4 +20,9 @@ function removeUser(username, message)
     games[roomName] = nil
     users[username] = nil
   end
+end
+
+function quitGame(data, msg_or_ip, port_or_nil)
+  local username = string.match(data, "QUIT (%w*) %w*")
+  removeUser(username, "QUIT")
 end

@@ -59,6 +59,7 @@ function main()
       -- < => game ending.
       -- OK => message received
       -- STILL HERE => to keep client connected to server
+      -- ERROR => There was a (probably network) error and the game has to end now
       if string.sub(data, 1, 2) == "OK" then
         removeValidatedMsg(data, msg_or_ip, port_or_nil)
       elseif string.sub(data,1,1) == "#" then
@@ -67,6 +68,10 @@ function main()
         updateGame(data, msg_or_ip, port_or_nil)
       elseif string.sub(data,1,1) == "?" then
         koiKoiUpdate(data, msg_or_ip, port_or_nil)
+      elseif string.sub(data, 1, 4) == "QUIT" then
+        quitGame(data, msg_or_ip, port_or_nil)
+      else
+        print(data, "Not identified")
       end
     elseif msg_or_ip ~= 'timeout' then
       error("Unknown network error: "..tostring(msg_or_ip))
@@ -100,7 +105,7 @@ function checkForLostMsgs()
       if stars:len() < 20 then
         sendUDP("*"..j.data, j.user)
       else
-        -- remove the user here.
+        removeUser(j.user.username, "ERROR")
       end
       table.remove(toValidate, i)
     end
