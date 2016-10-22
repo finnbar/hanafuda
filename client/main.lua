@@ -1,9 +1,3 @@
-package.path = package.path .. ";../both/?.lua"
-
-requires = {"cards-define","useful", "card-coordinates", "card-draw", "card-tween-updates", "game-setup", "game-updates", "game-deck-play", "game-deck-wait", "game-hand-play", "game-hand-wait", "gameOver", "menu", "they-score", "tween", "waiting", "you-score"}
-for i,j in pairs(requires) do
-  require(j)
-end
 local socket = require "socket"
 utf8 = require("utf8")
 
@@ -27,23 +21,10 @@ tinyfont = love.graphics.newFont(fontFile, 20)
 local gamestate = menu
 errormsg = ""
 mode = 1
-cards = {}
-
--- Game variables
-hand = {}
-selectedCard = nil
-playArea = {}
-playAreaLocations = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}}
-opposingCards = 8
-deckFlip = nil
-yourScore = {}
-theirScore = {}
-totalScore = 0
 
 local lastMsg = ""
 
 function love.load()
-  cards = importCards(true)
   udp = socket.udp()
   udp:settimeout(0)
   udp:setpeername(address, port)
@@ -55,12 +36,20 @@ function love.update(dt)
   repeat
     data, msg = udp:receive()
     if data then
-      local resends, newData = string.match(data, "(%**)(.*)")
-      if (resends == "" or newData ~= lastMsg) and gamestate.acceptMessage then
-        gamestate = gamestate.acceptMessage(newData, msg)
+      if data ~= "STILL HERE" then
+        udp:send("OK "..data)
+        local resends, newData = string.match(data, "(%**)(.*)")
+        if (resends == "" or newData ~= lastMsg) and gamestate.acceptMessage then
+          if (newData == "QUIT") then
+            gamestate = theyQuit
+          elseif (newData == "ERROR") then
+            gamestate = somethingWrong
+          else
+            gamestate = gamestate.acceptMessage(newData, msg)
+          end
+        end
+        lastMsg = newData
       end
-      lastMsg = newData
-      udp:send("OK "..data)
     elseif msg ~= 'timeout' then
       error("Network error: "..tostring(msg))
     end
@@ -72,6 +61,8 @@ end
 
 function love.draw()
   love.graphics.setColor(255,255,255)
+  love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+  love.graphics.setColor(255,255,255, 220)
   love.graphics.draw(bg,0,0,0,love.graphics.getWidth()/1280,love.graphics.getWidth()/1280)
   if gamestate.draw then
     gamestate = gamestate.draw()
@@ -99,6 +90,12 @@ end
 function love.mousemoved(x, y, dx, dy, istouch)
   if gamestate.mousemoved then
     gamestate = gamestate.mousemoved(x, y, dx, dy, istouch)
+  end
+end
+
+function love.quit()
+  if username and roomname then
+    udp:send("QUIT "..username.." "..roomname)
   end
 end
 

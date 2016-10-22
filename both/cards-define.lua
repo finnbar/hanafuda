@@ -1,15 +1,20 @@
--- Import all of the cards, give them attributes.
+local images = nil -- don't reload the images each time
 
+-- Import all of the cards, give them attributes.
 function importCards(client)
   -- Okay, lots of stuff here.
   -- We're constructing a cards array with their image and value.
   -- We're also giving each card a "charVal", which is a one-character representation of the card being sent.
+  if not images then
+    importImages(client)
+  end
+
   local cards = {}
   for i=1,12 do
     table.insert(cards,{})
     for j=1,4 do
       table.insert(cards[i],{})
-      cards[i][j] = {image = importImage(client, i, j), value = 1, month = i, number = j, charVal = string.char(((i-1)*4)+j+64), x = 0, y = 0, size = 1, tweens = {}, canBeMatched = false}
+      cards[i][j] = {image = images[i][j], value = 1, month = i, number = j, charVal = string.char(((i-1)*4)+j+64), x = 0, y = 0, size = 1, tweens = {}, canBeMatched = false}
     end
   end
   -- Special case, dammit November
@@ -41,5 +46,15 @@ function importImage(client,i,j)
     return love.graphics.newImage("assets/images/cards/"..months[i]..j..".png")
   else
     return ""
+  end
+end
+
+function importImages(client)
+  images = {}
+  for i=1,12 do
+    table.insert(images,{})
+    for j=1,4 do
+      images[i][j] = importImage(client, i, j)
+    end
   end
 end

@@ -1,7 +1,7 @@
 -- server.lua, which runs the server stuff, unsurprisingly.
 package.path = package.path .. ";../both/?.lua" -- get anything from both folder
 
-requires = {"cards-define","useful", "cards-score", "set-up-game", "game-end-updates", "game-updates"}
+requires = {"cards-define","useful", "cards-score", "set-up-game", "game-end-updates", "game-updates", "remove-user"}
 
 for _,j in pairs(requires) do
   require(j)
@@ -20,21 +20,29 @@ games = {} -- a list of games tied to their roomname/number.
 users = {} -- a list of users, and the game they're in.
 local toValidate = {}
 
+local lastSent
+
 -- debug mode, for printing more stuff
 debug = true
 
-function sendUDP(data,msg_or_ip,port_or_nil)
+function sendUDP(data, user, add_to_list)
+  if add_to_list == nil then
+    add_to_list = true
+  end
   print("Out > "..data)
-  udp:sendto(data,msg_or_ip,port_or_nil)
-  table.insert(toValidate, {data = data, ip = msg_or_ip, port_or_nil = port_or_nil, timeSent = socket.gettime()})
+  udp:sendto(data, user.ip, user.port)
+  if add_to_list then
+    table.insert(toValidate, {data = data, user = user, timeSent = socket.gettime()})
+  end
 end
 
 function sendFailureMessage(msg_or_ip, port_or_nil)
-  sendUDP("~", msg_or_ip, port_or_nil)
+  sendUDP("~", {ip = msg_or_ip, port = port_or_nil})
 end
 
 function main()
   math.randomseed(os.time()) -- Otherwise we get the same cards whenever server restarts
+  lastSent = socket.gettime()
   while running do
     data, msg_or_ip, port_or_nil = udp:receivefrom()
     if data then
@@ -49,26 +57,39 @@ function main()
       -- & => sends to waiting area
       -- ? => Koi-Koi
       -- < => game ending.
+      -- OK => message received
+      -- STILL HERE => to keep client connected to server
+      -- ERROR => There was a (probably network) error and the game has to end now
       if string.sub(data, 1, 2) == "OK" then
-        removeValidatedMsg(msg_or_ip, data)
+        removeValidatedMsg(data, msg_or_ip, port_or_nil)
       elseif string.sub(data,1,1) == "#" then
         createNewGame(data, msg_or_ip, port_or_nil)
       elseif string.sub(data,1,1) == ">" then
         updateGame(data, msg_or_ip, port_or_nil)
       elseif string.sub(data,1,1) == "?" then
         koiKoiUpdate(data, msg_or_ip, port_or_nil)
+      elseif string.sub(data, 1, 4) == "QUIT" then
+        quitGame(data, msg_or_ip, port_or_nil)
+      else
+        print(data, "Not identified")
       end
     elseif msg_or_ip ~= 'timeout' then
       error("Unknown network error: "..tostring(msg_or_ip))
     end
     checkForLostMsgs()
+    if socket.gettime() - lastSent > 30 then
+      for name,user in pairs(users) do
+        sendUDP("STILL HERE", user, false)
+      end
+      lastSent = socket.gettime()
+    end
     socket.sleep(0.01)
   end
 end
 
-function removeValidatedMsg(msg_or_ip, data)
+function removeValidatedMsg(data, msg_or_ip, port_or_nil)
   for i,j in ipairs(toValidate) do
-    if j.ip == msg_or_ip and "OK "..j.data == data then
+    if j.user.ip == msg_or_ip and j.user.port == port_or_nil and "OK "..j.data == data then
       table.remove(toValidate, i)
       return true
     end
@@ -80,7 +101,12 @@ function checkForLostMsgs()
   for i = #toValidate,1,-1 do -- backwards to make removing easier
     local j = toValidate[i]
     if socket.gettime() - j.timeSent > 0.75 then
-      sendUDP("*"..j.data, j.ip, j.port_or_nil)
+      local stars = string.match(j.data, "(%**).*")
+      if stars:len() < 20 then
+        sendUDP("*"..j.data, j.user)
+      else
+        removeUser(j.user.username, "ERROR")
+      end
       table.remove(toValidate, i)
     end
   end

@@ -10,8 +10,8 @@ function sendKoiKoiUpdate(playerNum, match, game)
   local msg = "?"..score.."?"..match.."?"
 
   -- send to both
-  sendUDP(msg, game.players[1].msg_or_ip, game.players[1].port_or_nil)
-  sendUDP(msg, game.players[2].msg_or_ip, game.players[2].port_or_nil)
+  sendUDP(msg, game.players[1])
+  sendUDP(msg, game.players[2])
 end
 
 function sendContinueUpdate(game)
@@ -23,8 +23,8 @@ function sendContinueUpdate(game)
   end
 
   -- send to both
-  sendUDP(msg, game.players[1].msg_or_ip, game.players[1].port_or_nil)
-  sendUDP(msg, game.players[2].msg_or_ip, game.players[2].port_or_nil)
+  sendUDP(msg, game.players[1])
+  sendUDP(msg, game.players[2])
 end
 
 function sendGameOver(game, winner)
@@ -45,8 +45,8 @@ function sendGameOver(game, winner)
   end
 
   -- send to both
-  sendUDP(player1_msg, game.players[1].msg_or_ip, game.players[1].port_or_nil)
-  sendUDP(player2_msg, game.players[2].msg_or_ip, game.players[2].port_or_nil)
+  sendUDP(player1_msg, game.players[1])
+  sendUDP(player2_msg, game.players[2])
 
   games[game.roomname] = nil
   users[game.players[1].username], users[game.players[2].username] = nil, nil
